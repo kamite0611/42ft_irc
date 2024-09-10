@@ -6,13 +6,16 @@
 /*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/08/31 21:56:13 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:31:26 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-int main(void)
+int main(int ac)
 {
+	if (ac == 2)
+	{
+	}
 	return 0;
 }
