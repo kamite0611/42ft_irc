@@ -4,7 +4,7 @@ void	irc::Config::init(std::string fileName)
 {
 	std::ifstream	file(fileName.c_str());
 	if (!file.is_open())
-		throw (std::runtime_error("cofig file opening failure"));
+		irc::printError("cofig file opening failure", true);
 	std::string	line;
 	while (std::getline(file, line))
 	{
@@ -18,7 +18,7 @@ void	irc::Config::init(std::string fileName)
 		{
 			std::ifstream	contentFile(value.c_str());
 			if (!contentFile.is_open())
-				throw (std::runtime_error("content file opening failure"));
+				irc::printError("content file opening failure", true);
 			std::string	contentLine;
 			std::getline(contentFile, contentLine);
 			value = contentLine;
