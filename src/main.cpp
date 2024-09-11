@@ -6,7 +6,7 @@
 /*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/11 18:34:55 by kkodaira         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:31:07 by kkodaira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ int main(int argc, char **argv)
 	irc::Server	server;
 	signal(SIGINT, handler);
 
-	
+	server.getConfig().set("port", argv[1]);
+	server.getConfig().set("password", argv[2]);
+
+	// server.init();
+
 	return 0;
 }
