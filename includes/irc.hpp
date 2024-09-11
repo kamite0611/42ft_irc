@@ -6,7 +6,7 @@
 /*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:55:42 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/11 18:27:56 by kkodaira         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:34:47 by kkodaira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,8 @@
 #include "Utils.hpp"
 
 #include <iostream>
+#include <csignal>
+
+extern bool	stop;
 
 #endif
