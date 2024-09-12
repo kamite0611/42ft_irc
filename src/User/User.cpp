@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:15:33 by akamite          ###   ########.fr       */
+/*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
+/*   Updated: 2024/09/13 00:36:07 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc.hpp"
+#include "User.hpp"
+#include <iostream>
+#include <arpa/inet.h>
 
-void handler(int signal)
+irc::User::User(int fd, Server *server, struct sockaddr_in address) : fd(fd),
+                                                                      server(server)
 {
-	(void)signal;
-	stop = true;
+    (void)address;
 }
 
-bool stop = false;
-
-int main(int argc, char **argv)
+irc::User::~User()
 {
-	if (argc != 3)
-		irc::printError("invalid argument count", true);
-
-	irc::Server server;
-	signal(SIGINT, handler);
-
-	server.getConfig().set("port", argv[1]);
-	server.getConfig().set("password", argv[2]);
-
-	server.init();
-	while (!stop)
-	{
-		sleep(1);
-		server.execute();
-	}
-	return 0;
 }

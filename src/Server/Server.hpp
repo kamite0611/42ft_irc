@@ -11,24 +11,26 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 
-namespace	irc
+namespace irc
 {
-	class	Server
+	class Server
 	{
 	private:
-		Config						config;
-		Display						display;
+		Config config;
+		Display display;
 		// map<int, User*> 			users;
 		// map<std::string, Channel>	channels;
-		int							fd;
-		std::string					bootTime;
-		std::time_t						lastPingTime;
-		std::vector<pollfd>				pfds;
+		int fd;
+		std::string bootTime;
+		std::time_t lastPingTime;
+		std::vector<pollfd> pfds;
+
 	public:
 		Server();
 
-		irc::Config&	getConfig();
-		irc::Display&	getDisplay();
-		void			init();
+		irc::Config &getConfig();
+		irc::Display &getDisplay();
+		void init();
+		void execute();
 	};
 }

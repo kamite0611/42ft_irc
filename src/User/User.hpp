@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:15:33 by akamite          ###   ########.fr       */
+/*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
+/*   Updated: 2024/09/13 00:34:10 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc.hpp"
+#ifndef USER_HPP
+#define USER_HPP
 
-void handler(int signal)
+#include <iostream>
+
+namespace irc
 {
-	(void)signal;
-	stop = true;
+    class Server;
+
+    class User
+    {
+    private:
+        int fd;
+        std::string nickname;
+        Server *server;
+
+    public:
+        User(int fd, Server *server, struct sockaddr_in address);
+        ~User();
+
+        /** Getters */
+        std::string getNickname() const;
+    };
 }
 
-bool stop = false;
-
-int main(int argc, char **argv)
-{
-	if (argc != 3)
-		irc::printError("invalid argument count", true);
-
-	irc::Server server;
-	signal(SIGINT, handler);
-
-	server.getConfig().set("port", argv[1]);
-	server.getConfig().set("password", argv[2]);
-
-	server.init();
-	while (!stop)
-	{
-		sleep(1);
-		server.execute();
-	}
-	return 0;
-}
+#endif
