@@ -6,7 +6,7 @@
 #    By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/11 18:28:52 by kkodaira         ###   ########.fr        #
+#    Updated: 2024/09/11 19:17:34 by kkodaira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ FILES	= \
 	main \
 	Server/Server \
 	Server/Config/Config \
+	Server/Display/Display \
 	Utils/Utils
 
 SRCS	= $(addprefix $(SRC_DIR), $(FILES:=.cpp))
@@ -29,6 +30,7 @@ INCS	= \
 	-I ./includes/ \
 	-I ./src/Server/ \
 	-I ./src/Server/Config/ \
+	-I ./src/Server/Display/ \
 	-I ./src/Utils/
 
 all: dirs $(NAME)
@@ -37,6 +39,7 @@ dirs:
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(OBJ_DIR)Server/
 	@mkdir -p $(OBJ_DIR)Server/Config/
+	@mkdir -p $(OBJ_DIR)Server/Display/
 	@mkdir -p $(OBJ_DIR)Utils/
 
 $(NAME): $(OBJS)
@@ -55,5 +58,8 @@ re: fclean all
 
 debug: re
 	./$(NAME)
+
+run: all
+	./$(NAME) 6667 password
 
 .PHONY: all clean fclean re
