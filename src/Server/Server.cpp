@@ -62,6 +62,9 @@ void irc::Server::execute()
 {
 	int ping = atoi(config.get("ping").c_str());
 
+	if (poll(&pfds[0], pfds.size(), (ping * 1000) / 10) == -1)
+		return;
+
 	if (pfds[0].revents == POLLIN)
-		std::cout << "pfds[0]: " << pfds[0].revents << std::endl;
+		std::cout << "new User: " << pfds[0].events << std::endl;
 }

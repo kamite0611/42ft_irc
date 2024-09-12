@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+         #
+#    By: akamite <akamite@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/11 19:17:34 by kkodaira         ###   ########.fr        #
+#    Updated: 2024/09/13 00:13:46 by akamite          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ FILES	= \
 	Server/Server \
 	Server/Config/Config \
 	Server/Display/Display \
+	User/User \
 	Utils/Utils
+
 
 SRCS	= $(addprefix $(SRC_DIR), $(FILES:=.cpp))
 OBJS	= $(addprefix $(OBJ_DIR), $(FILES:=.o))
@@ -40,6 +42,7 @@ dirs:
 	@mkdir -p $(OBJ_DIR)Server/
 	@mkdir -p $(OBJ_DIR)Server/Config/
 	@mkdir -p $(OBJ_DIR)Server/Display/
+	@mkdir -p $(OBJ_DIR)User/
 	@mkdir -p $(OBJ_DIR)Utils/
 
 $(NAME): $(OBJS)

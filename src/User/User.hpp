@@ -6,7 +6,7 @@
 /*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/12 23:43:53 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/13 00:34:10 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ namespace irc
     class User
     {
     private:
+        int fd;
         std::string nickname;
-        Server *servier;
+        Server *server;
 
     public:
-        User();
+        User(int fd, Server *server, struct sockaddr_in address);
         ~User();
+
+        /** Getters */
+        std::string getNickname() const;
     };
 }
 
