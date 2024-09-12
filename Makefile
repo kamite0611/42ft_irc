@@ -3,32 +3,44 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/08/31 21:57:01 by akamite          ###   ########.fr        #
+#    Updated: 2024/09/11 19:17:34 by kkodaira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= ircserv
 CC		= c++
-FLAGS	= -Wall -Wextra -Werror -std=c++98
+FLAGS	= -std=c++98 #-Wall -Wextra -Werror
 
 OBJ_DIR	= objs/
 SRC_DIR = src/
 
 FILES	= \
-	main
+	main \
+	Server/Server \
+	Server/Config/Config \
+	Server/Display/Display \
+	Utils/Utils
 
 SRCS	= $(addprefix $(SRC_DIR), $(FILES:=.cpp))
 OBJS	= $(addprefix $(OBJ_DIR), $(FILES:=.o))
 INCS	= \
-	-I ./includes/
+	-I ./includes/ \
+	-I ./src/Server/ \
+	-I ./src/Server/Config/ \
+	-I ./src/Server/Display/ \
+	-I ./src/Utils/
 
 all: dirs $(NAME)
 
 dirs:
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)Server/
+	@mkdir -p $(OBJ_DIR)Server/Config/
+	@mkdir -p $(OBJ_DIR)Server/Display/
+	@mkdir -p $(OBJ_DIR)Utils/
 
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(INCS) -o $(NAME)
@@ -46,5 +58,8 @@ re: fclean all
 
 debug: re
 	./$(NAME)
+
+run: all
+	./$(NAME) 6667 password
 
 .PHONY: all clean fclean re
