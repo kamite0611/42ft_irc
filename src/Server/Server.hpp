@@ -31,6 +31,7 @@ namespace irc
 	public:
 		Server();
 
+		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
 		void init();

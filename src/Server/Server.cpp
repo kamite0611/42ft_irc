@@ -3,22 +3,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-irc::Config &irc::Server::getConfig()
-{
-	return (this->_config);
-}
-
-irc::Display &irc::Server::getDisplay()
-{
-	return (this->_display);
-}
-
 irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0))
 {
 	_display.set(0, "Welcome To Our Irc Server!");
 }
 
-/** Userの追加 */
+/*---------------- Private Functions  ----------------*/
+
+/**
+ * Userの追加
+ */
 void irc::Server::_acceptUser()
 {
 	/** TODO ユーザー最大数のvalidation追加 */
@@ -37,6 +31,8 @@ void irc::Server::_acceptUser()
 	newPoll.events = POLLIN;
 	_pfds.push_back(newPoll);
 }
+
+/*---------------- Public Functions  ----------------*/
 
 void irc::Server::init()
 {
@@ -80,6 +76,10 @@ void irc::Server::init()
 	_config.set("channel_togglemode", "imnpt");
 	_config.set("channel_addmode", "kl");
 }
+
+/** Getters */
+irc::Config &irc::Server::getConfig() { return (this->_config); }
+irc::Display &irc::Server::getDisplay() { return (this->_display); }
 
 void irc::Server::execute()
 {

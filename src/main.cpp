@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:15:33 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:57:11 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
+#include <unistd.h>
 
 void handler(int signal)
 {
