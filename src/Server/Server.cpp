@@ -1,3 +1,4 @@
+#include "irc.hpp"
 #include "Server.hpp"
 #include "User.hpp"
 #include <sys/socket.h>
@@ -15,9 +16,6 @@ irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0
  */
 void irc::Server::_acceptUser()
 {
-	/** TODO ユーザー最大数のvalidation追加 */
-
-	struct pollfd newPoll;
 	struct sockaddr_in address;
 	socklen_t csin_len = sizeof(address);
 
@@ -26,10 +24,15 @@ void irc::Server::_acceptUser()
 		return;
 
 	User *newUser = new User(fd, this, address);
+	_users[fd] = newUser;
 
-	newPoll.fd = _fd;
+	struct pollfd newPoll;
+	newPoll.fd = fd;
 	newPoll.events = POLLIN;
 	_pfds.push_back(newPoll);
+
+	if (IS_DEBUG)
+		std::cout << "newUser[" << fd << "]: " << newUser << " accept success!!" << std::endl;
 }
 
 /*---------------- Public Functions  ----------------*/
@@ -56,7 +59,7 @@ void irc::Server::init()
 	if (_fd < 0)
 		irc::printError("socket failure", true);
 	int en = 1;
-	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
+	if (setsockopt(_fd, SOL_SOCKET, IS_MAC ? SO_REUSEPORT : SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
 		irc::printError("setsockopt failure", true);
 	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
 		irc::printError("fcntl failure", true);
@@ -89,5 +92,5 @@ void irc::Server::execute()
 		return;
 
 	if (_pfds[0].revents == POLLIN)
-		std::cout << "new User: " << _pfds[0].events << std::endl;
+		_acceptUser();
 }

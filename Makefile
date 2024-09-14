@@ -6,7 +6,7 @@
 #    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/14 18:00:10 by akamite          ###   ########.fr        #
+#    Updated: 2024/09/14 18:06:08 by akamite          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,5 +65,8 @@ debug: re
 
 run: all
 	./$(NAME) 6667 password
+
+run_client:
+	irssi -c localhost -w password
 
 .PHONY: all clean fclean re

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Config.hpp"
+#include "User.hpp"
 #include "Display.hpp"
 #include <ctime>
 #include <poll.h>
@@ -10,6 +11,7 @@
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <map>
 
 namespace irc
 {
@@ -18,7 +20,8 @@ namespace irc
 	private:
 		Config _config;
 		Display _display;
-		// map<int, User*> 			users;
+
+		std::map<int, User *> _users;
 		// map<std::string, Channel>	channels;
 		int _fd;
 		std::string _bootTime;
