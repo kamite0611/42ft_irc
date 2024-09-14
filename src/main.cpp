@@ -6,7 +6,7 @@
 /*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/14 17:57:11 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:42:37 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	server.init();
 	while (!stop)
 	{
-		sleep(1);
+		// sleep(1);
 		server.execute();
 	}
 	return 0;

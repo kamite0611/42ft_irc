@@ -28,8 +28,8 @@ namespace irc
 		std::time_t _lastPingTime;
 		std::vector<pollfd> _pfds;
 
-		/** Userの追加 */
-		void _acceptUser();
+		void _acceptUser();			/** Userの追加 */
+		void _disconnectUser(); /** Userの削除 */
 
 	public:
 		Server();

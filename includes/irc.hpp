@@ -6,7 +6,7 @@
 /*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:55:42 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/14 18:09:55 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:58:45 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "Server.hpp"
 #include "Config.hpp"
 #include "Utils.hpp"
+#include "User.hpp"
+#include "Display.hpp"
 
 #include <iostream>
 #include <csignal>

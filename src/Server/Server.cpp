@@ -1,6 +1,5 @@
 #include "irc.hpp"
-#include "Server.hpp"
-#include "User.hpp"
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 
@@ -31,8 +30,18 @@ void irc::Server::_acceptUser()
 	newPoll.events = POLLIN;
 	_pfds.push_back(newPoll);
 
+	irc::put_pfds(_pfds);
+
 	if (IS_DEBUG)
 		std::cout << "newUser[" << fd << "]: " << newUser << " accept success!!" << std::endl;
+}
+
+/**
+ * Userの削除
+ */
+void irc::Server::_disconnectUser()
+{
+	/** TODO[akamite] add */
 }
 
 /*---------------- Public Functions  ----------------*/
