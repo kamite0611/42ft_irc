@@ -16,14 +16,17 @@ namespace irc
 	class Server
 	{
 	private:
-		Config config;
-		Display display;
+		Config _config;
+		Display _display;
 		// map<int, User*> 			users;
 		// map<std::string, Channel>	channels;
-		int fd;
-		std::string bootTime;
-		std::time_t lastPingTime;
-		std::vector<pollfd> pfds;
+		int _fd;
+		std::string _bootTime;
+		std::time_t _lastPingTime;
+		std::vector<pollfd> _pfds;
+
+		/** Userの追加 */
+		void _acceptUser();
 
 	public:
 		Server();
@@ -31,6 +34,8 @@ namespace irc
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
 		void init();
+
+		/** サーバー実行 */
 		void execute();
 	};
 }

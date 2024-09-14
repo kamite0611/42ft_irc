@@ -6,7 +6,7 @@
 /*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:34:10 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 16:08:26 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define USER_HPP
 
 #include <iostream>
+#include <netinet/in.h>
 
 namespace irc
 {
@@ -32,6 +33,8 @@ namespace irc
 
         /** Getters */
         std::string getNickname() const;
+
+        /**  */
     };
 }
 
