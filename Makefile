@@ -6,7 +6,7 @@
 #    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/14 19:08:32 by akamite          ###   ########.fr        #
+#    Updated: 2024/09/14 19:09:11 by akamite          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,6 @@ INCS	= \
 	-I ./includes/ \
 	$(INC_DIRS)
 
-echo:
-	echo $(INC_SRC_DIRS)
 
 all: dirs $(NAME)
 
