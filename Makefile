@@ -6,7 +6,7 @@
 #    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/14 18:06:08 by akamite          ###   ########.fr        #
+#    Updated: 2024/09/14 19:08:32 by akamite          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,26 +25,29 @@ FILES	= \
 	User/User \
 	Utils/Utils
 
+DIRS = \
+	Server/ \
+	Server/Config/ \
+	Server/Display/ \
+	User/ \
+	Utils/
+
+INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))
+OBJ_DIRS = $(addprefix $(OBJ_DIR), $(DIRS))
 
 SRCS	= $(addprefix $(SRC_DIR), $(FILES:=.cpp))
 OBJS	= $(addprefix $(OBJ_DIR), $(FILES:=.o))
 INCS	= \
 	-I ./includes/ \
-	-I ./src/Server/ \
-	-I ./src/Server/Config/ \
-	-I ./src/Server/Display/ \
-	-I ./src/User/ \
-	-I ./src/Utils/
+	$(INC_DIRS)
+
+echo:
+	echo $(INC_SRC_DIRS)
 
 all: dirs $(NAME)
 
 dirs:
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)Server/
-	@mkdir -p $(OBJ_DIR)Server/Config/
-	@mkdir -p $(OBJ_DIR)Server/Display/
-	@mkdir -p $(OBJ_DIR)User/
-	@mkdir -p $(OBJ_DIR)Utils/
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIRS)
 
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(INCS) -o $(NAME)
