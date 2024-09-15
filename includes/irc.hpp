@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:55:42 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/11 18:34:47 by kkodaira         ###   ########.fr       */
+/*   Updated: 2024/09/14 18:58:45 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@
 #include "Server.hpp"
 #include "Config.hpp"
 #include "Utils.hpp"
+#include "User.hpp"
+#include "Display.hpp"
 
 #include <iostream>
 #include <csignal>
 
-extern bool	stop;
+#define IS_MAC true
+#define IS_DEBUG true
+
+extern bool stop;
 
 #endif

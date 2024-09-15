@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Config.hpp"
+#include "User.hpp"
 #include "Display.hpp"
 #include <ctime>
 #include <poll.h>
@@ -10,27 +11,35 @@
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <map>
 
 namespace irc
 {
 	class Server
 	{
 	private:
-		Config config;
-		Display display;
-		// map<int, User*> 			users;
+		Config _config;
+		Display _display;
+
+		std::map<int, User *> _users;
 		// map<std::string, Channel>	channels;
-		int fd;
-		std::string bootTime;
-		std::time_t lastPingTime;
-		std::vector<pollfd> pfds;
+		int _fd;
+		std::string _bootTime;
+		std::time_t _lastPingTime;
+		std::vector<pollfd> _pfds;
+
+		void _acceptUser();			/** Userの追加 */
+		void _disconnectUser(); /** Userの削除 */
 
 	public:
 		Server();
 
+		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
 		void init();
+
+		/** サーバー実行 */
 		void execute();
 	};
 }

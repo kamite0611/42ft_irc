@@ -1,19 +1,50 @@
-#include "Server.hpp"
+#include "irc.hpp"
 
-irc::Config &irc::Server::getConfig()
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0))
 {
-	return (this->config);
+	_display.set(0, "Welcome To Our Irc Server!");
 }
 
-irc::Display &irc::Server::getDisplay()
+/*---------------- Private Functions  ----------------*/
+
+/**
+ * Userの追加
+ */
+void irc::Server::_acceptUser()
 {
-	return (this->display);
+	struct sockaddr_in address;
+	socklen_t csin_len = sizeof(address);
+
+	int fd = accept(_fd, (struct sockaddr *)&address, &csin_len);
+	if (fd < 0)
+		return;
+
+	User *newUser = new User(fd, this, address);
+	_users[fd] = newUser;
+
+	struct pollfd newPoll;
+	newPoll.fd = fd;
+	newPoll.events = POLLIN;
+	_pfds.push_back(newPoll);
+
+	irc::put_pfds(_pfds);
+
+	if (IS_DEBUG)
+		std::cout << "newUser[" << fd << "]: " << newUser << " accept success!!" << std::endl;
 }
 
-irc::Server::Server() : bootTime(irc::currentTime()), lastPingTime(std::time(0))
+/**
+ * Userの削除
+ */
+void irc::Server::_disconnectUser()
 {
-	display.set(0, "Welcome To Our Irc Server!");
+	/** TODO[akamite] add */
 }
+
+/*---------------- Public Functions  ----------------*/
 
 void irc::Server::init()
 {
@@ -33,38 +64,42 @@ void irc::Server::init()
 	add.sin_port = htons(atoi(this->getConfig().get("port").c_str()));
 	add.sin_addr.s_addr = INADDR_ANY; // ローカルマシンのすべてのアドレス受け入れ
 
-	this->fd = socket(AF_INET, SOCK_STREAM, 0); // ソケット作成
-	if (this->fd < 0)
+	_fd = socket(AF_INET, SOCK_STREAM, 0); // ソケット作成
+	if (_fd < 0)
 		irc::printError("socket failure", true);
 	int en = 1;
-	if (setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
+	if (setsockopt(_fd, SOL_SOCKET, IS_MAC ? SO_REUSEPORT : SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
 		irc::printError("setsockopt failure", true);
-	if (fcntl(fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
+	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
 		irc::printError("fcntl failure", true);
-	if (bind(this->fd, (struct sockaddr *)&add, sizeof(add)) < 0) // ソケットとサーバーアドレスを関連付ける
+	if (bind(_fd, (struct sockaddr *)&add, sizeof(add)) < 0) // ソケットとサーバーアドレスを関連付ける
 		irc::printError("bind failure", true);
-	if (listen(this->fd, SOMAXCONN) < 0)
+	if (listen(_fd, SOMAXCONN) < 0)
 		irc::printError("listen failure", true);
 
-	newPoll.fd = this->fd;
+	newPoll.fd = _fd;
 	newPoll.events = POLLIN; // 接続要求の受信待ち
-	this->pfds.push_back(newPoll);
+	_pfds.push_back(newPoll);
 
 	// デフォルトで設定できるモードを指定しておくが、
 	// ここについては後々議論
-	this->config.set("user_mode", "aiwro");
-	this->config.set("channel_givemode", "Oov");
-	this->config.set("channel_togglemode", "imnpt");
-	this->config.set("channel_addmode", "kl");
+	_config.set("user_mode", "aiwro");
+	_config.set("channel_givemode", "Oov");
+	_config.set("channel_togglemode", "imnpt");
+	_config.set("channel_addmode", "kl");
 }
+
+/** Getters */
+irc::Config &irc::Server::getConfig() { return (this->_config); }
+irc::Display &irc::Server::getDisplay() { return (this->_display); }
 
 void irc::Server::execute()
 {
-	int ping = atoi(config.get("ping").c_str());
+	int ping = atoi(_config.get("ping").c_str());
 
-	if (poll(&pfds[0], pfds.size(), (ping * 1000) / 10) == -1)
+	if (poll(&_pfds[0], _pfds.size(), (ping * 1000) / 10) == -1)
 		return;
 
-	if (pfds[0].revents == POLLIN)
-		std::cout << "new User: " << pfds[0].events << std::endl;
+	if (_pfds[0].revents == POLLIN)
+		_acceptUser();
 }

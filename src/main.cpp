@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:29:39 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:15:33 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:42:37 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
+#include <unistd.h>
 
 void handler(int signal)
 {
@@ -34,7 +35,7 @@ int main(int argc, char **argv)
 	server.init();
 	while (!stop)
 	{
-		sleep(1);
+		// sleep(1);
 		server.execute();
 	}
 	return 0;

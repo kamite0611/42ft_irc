@@ -5,14 +5,17 @@
 #include <cstdlib>
 #include <ctime>
 #include <sstream>
+#include <vector>
+#include <poll.h>
 
 #ifndef DEBAG
-# define DEBAG 0
+#define DEBAG 0
 #endif
 
-namespace	irc
+namespace irc
 {
-	void		printError(std::string msg, bool stop);
-	std::string	currentTime();
-	std::string	stoi(int nbr);
+	void printError(std::string msg, bool stop);
+	std::string currentTime();
+	std::string stoi(int nbr);
+	void put_pfds(std::vector<pollfd> pfds);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamite <akamite@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/13 00:34:10 by akamite          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:16:05 by akamite          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define USER_HPP
 
 #include <iostream>
+#include <netinet/in.h>
 
 namespace irc
 {
@@ -22,9 +23,9 @@ namespace irc
     class User
     {
     private:
-        int fd;
-        std::string nickname;
-        Server *server;
+        int _fd;
+        std::string _nickname;
+        Server *_server;
 
     public:
         User(int fd, Server *server, struct sockaddr_in address);
@@ -32,6 +33,8 @@ namespace irc
 
         /** Getters */
         std::string getNickname() const;
+
+        /**  */
     };
 }
 
