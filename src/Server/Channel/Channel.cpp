@@ -1,4 +1,4 @@
 #include "Channel.hpp"
 
-irc::Channel::Channel(): mode("n") {}
+irc::Channel::Channel(): _mode("n") {}
 

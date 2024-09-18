@@ -10,22 +10,22 @@ void	irc::Display::update()
 	if (DEBAG)
 		return ;
 	clearScreen();
-	for (std::map<unsigned int, std::string>::iterator it = this->lines.begin(); \
-	it != this->lines.end(); it++)
+	for (std::map<unsigned int, std::string>::iterator it = this->_lines.begin(); \
+	it != this->_lines.end(); it++)
 		std::cout << it->second << "\033[0m" << std::endl;
 }
 
 void	irc::Display::set(unsigned int row, std::string line)
 {
-	if (this->lines[row] == line)
+	if (this->_lines[row] == line)
 		return ;
-	this->lines[row] = line;
+	this->_lines[row] = line;
 	update();
 }
 
 void	irc::Display::remove(unsigned int row)
 {
-	this->lines.erase(row);
+	this->_lines.erase(row);
 	update();
 }
 

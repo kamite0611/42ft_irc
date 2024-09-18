@@ -10,7 +10,7 @@ namespace	irc
 	class	Display
 	{
 	private:
-		std::map<unsigned int, std::string>	lines;
+		std::map<unsigned int, std::string>	_lines;
 	public:
 		Display();
 		~Display();

@@ -13,7 +13,7 @@ namespace	irc
 	class	Config
 	{
 	private:
-		std::map<std::string, std::string>	values;
+		std::map<std::string, std::string>	_values;
 	public:
 		Config();
 		Config(std::string fileName);
