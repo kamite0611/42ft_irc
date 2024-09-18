@@ -6,7 +6,7 @@
 /*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/18 16:56:58 by kkodaira         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:00:21 by kkodaira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,20 @@
 
 #include <iostream>
 #include <netinet/in.h>
+#include <sys/socket.h>
+#include <string>
+
+#include "Utils.hpp"
+#include "Command.hpp"
+
+/*メッセージ1つあたりの最大長が512byteで、複数メッセージを処理するのに十分なサイズ*/
+#define BUFFER_SIZE 4096
+#define MESSAGE_END "\r\n"
 
 namespace irc
 {
     class Server;
+    class Command;
 
     enum UserStatus
     {
@@ -33,6 +43,8 @@ namespace irc
         std::string _nickname;
         Server *_server;
         UserStatus _status;
+        std::string _buffer;
+        std::vector<Command*> _command;
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
@@ -42,7 +54,9 @@ namespace irc
         UserStatus getStatus() const;
 
         /**  */
-        void receive(); /*UserへのPOLLINイベント*/
+
+        void dispatch(); /*Command識別*/
+        void receive(); /*UserへのPOLLINイベント、コマンド作成*/
 
 		/*メッセージ送信*/
 		void push();

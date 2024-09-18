@@ -122,12 +122,12 @@ void irc::Server::execute()
 		}
 	}
 
-	std::vector<irc::User*> users = getUsers();
-	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
-	{
-		if ((*it)->getStatus() == DELETE)
-			delUser();
-	}
+	// std::vector<irc::User*> users = getUsers();
+	// for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
+	// {
+	// 	if ((*it)->getStatus() == DELETE)
+	// 		delUser();
+	// }
 	// users = getUsers();
 	// for (std::vector<irc::User*>::iteraotr it = users.begin(); it != users.end(); it++)
 	// 	*it->push();/*メッセージ送信*/

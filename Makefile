@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/09/14 19:09:11 by akamite          ###   ########.fr        #
+#    Updated: 2024/09/18 20:04:46 by kkodaira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ FILES	= \
 	Server/Config/Config \
 	Server/Display/Display \
 	User/User \
+	User/Command/Command \
 	Utils/Utils
 
 DIRS = \
@@ -30,6 +31,7 @@ DIRS = \
 	Server/Config/ \
 	Server/Display/ \
 	User/ \
+	User/Command/ \
 	Utils/
 
 INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))
