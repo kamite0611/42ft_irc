@@ -44,6 +44,16 @@ void irc::Server::_disconnectUser()
 	/** TODO[akamite] add */
 }
 
+void irc::Server::_sendPing()
+{
+	/* TODO[kkodaira] add */
+}
+
+std::vector<irc::User*> irc::Server::_getUsers()
+{
+	/* TODO[kkodaira] add */
+}
+
 /*---------------- Public Functions  ----------------*/
 
 void irc::Server::init()
@@ -89,10 +99,6 @@ void irc::Server::init()
 	_config.set("channel_addmode", "kl");
 }
 
-/** Getters */
-irc::Config &irc::Server::getConfig() { return (this->_config); }
-irc::Display &irc::Server::getDisplay() { return (this->_display); }
-
 void irc::Server::execute()
 {
 	int ping = atoi(_config.get("ping").c_str());
@@ -100,6 +106,44 @@ void irc::Server::execute()
 	if (poll(&_pfds[0], _pfds.size(), (ping * 1000) / 10) == -1)
 		return;
 
-	if (_pfds[0].revents == POLLIN)
-		_acceptUser();
+	if (std::time(0) - _lastPingTime >= ping)
+	{
+		// _sendPing();
+		_lastPingTime = std::time(0);
+	}
+	else
+	{
+		if (_pfds[0].revents == POLLIN)
+			_acceptUser();
+		for (std::vector<pollfd>::iterator it = _pfds.begin() + 1; it != _pfds.end(); it++)
+		{
+			if ((*it).revents == POLLIN)
+				_users[(*it).fd]->receive();
+		}
+	}
+
+	std::vector<irc::User*> users = getUsers();
+	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
+	{
+		if ((*it)->getStatus() == DELETE)
+			delUser();
+	}
+	// users = getUsers();
+	// for (std::vector<irc::User*>::iteraotr it = users.begin(); it != users.end(); it++)
+	// 	*it->push();/*メッセージ送信*/
+	// users.displayUsers();/*ユーザー表示*/
 }
+
+void irc::Server::delUser()
+{
+	/* TODO[kkodaira] add */
+}
+
+std::vector<irc::User*> irc::Server::getUsers()
+{
+	/* TODO[kkodaira] add */
+}
+
+/** Getters */
+irc::Config &irc::Server::getConfig() { return (this->_config); }
+irc::Display &irc::Server::getDisplay() { return (this->_display); }

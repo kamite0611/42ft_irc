@@ -15,6 +15,8 @@
 
 namespace irc
 {
+	class User;
+
 	class Server
 	{
 	private:
@@ -30,6 +32,8 @@ namespace irc
 
 		void _acceptUser();			/** Userの追加 */
 		void _disconnectUser(); /** Userの削除 */
+		void _sendPing(); /*pingの送信*/
+		std::vector<User*> _getUsers(); /*User列の取得*/
 
 	public:
 		Server();
@@ -41,5 +45,9 @@ namespace irc
 
 		/** サーバー実行 */
 		void execute();
+
+		/*User操作*/
+		void delUser();
+		std::vector<irc::User*> getUsers(); /*Userをvector<User*>形式でget*/
 	};
 }
