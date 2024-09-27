@@ -122,7 +122,7 @@ void irc::Server::execute()
 		}
 	}
 
-	// std::vector<irc::User*> users = getUsers();
+	std::vector<irc::User*> users = getUsers();
 	// for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
 	// {
 	// 	if ((*it)->getStatus() == DELETE)
@@ -141,7 +141,13 @@ void irc::Server::delUser()
 
 std::vector<irc::User*> irc::Server::getUsers()
 {
-	/* TODO[kkodaira] add */
+	std::vector<irc::User*> users;
+
+	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		users.push_back(it->second);
+	}
+	return (users);
 }
 
 /** Getters */
