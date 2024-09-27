@@ -1,15 +1,15 @@
 #include "Display.hpp"
 
-void	irc::Display::clearScreen()
-{
-	std::cout << "\033[2J" << std::flush;
-}
+// void	irc::Display::clearScreen()
+// {
+// 	std::cout << "\033[2J" << std::flush;
+// }
 
 void	irc::Display::update()
 {
 	if (DEBAG)
 		return ;
-	clearScreen();
+	// clearScreen();
 	for (std::map<unsigned int, std::string>::iterator it = this->_lines.begin(); \
 	it != this->_lines.end(); it++)
 		std::cout << it->second << "\033[0m" << std::endl;

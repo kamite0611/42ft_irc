@@ -15,7 +15,7 @@ namespace	irc
 		Display();
 		~Display();
 
-		void	clearScreen();
+		// void	clearScreen();
 		void	update();
 		void	set(unsigned int row, std::string line);
 		void	remove(unsigned int row);
