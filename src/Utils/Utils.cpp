@@ -38,3 +38,19 @@ void irc::put_pfds(std::vector<pollfd> pfds)
 		std::cout << "pfds[" << i << "]: " << &pfds[i] << " " << pfds[i].fd << std::endl;
 	}
 }
+
+std::vector<std::string> irc::split(std::string& str, const std::string& deli)
+{
+	std::vector<std::string> parameters;
+	size_t pos = 0;
+	size_t nextPos = 0;
+
+	while ((pos = str.find(deli, pos + 1)) != std::string::npos)
+	{
+		parameters.push_back(str.substr(0, pos));
+		str.erase(0, pos + 1);
+		pos = 0;
+	}
+	parameters.push_back(str);
+	return (parameters);
+}
