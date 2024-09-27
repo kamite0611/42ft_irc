@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/27 17:45:07 by kai11            ###   ########.fr       */
+/*   Updated: 2024/09/27 18:36:15 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <arpa/inet.h>
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
-                                                                      _server(server)
+                                                                      _server(server),
+                                                                      _status(REGISTER)
 {
     (void)address;
 }
