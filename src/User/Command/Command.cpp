@@ -20,3 +20,5 @@ _user(user), _server(server)
 	for (size_t i = 0; i < _prefix.length(); i++)
 		_prefix[i] = std::toupper(_prefix[i]);
 }
+
+irc::Command::~Command() {}

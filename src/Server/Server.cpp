@@ -128,9 +128,9 @@ void irc::Server::execute()
 		if ((*it)->getStatus() == DELETE)
 			delUser();
 	}
-	// users = getUsers();
-	// for (std::vector<irc::User*>::iteraotr it = users.begin(); it != users.end(); it++)
-	// 	*it->push();/*メッセージ送信*/
+	users = getUsers();
+	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
+		(*it)->push();/*メッセージ送信*/
 	// users.displayUsers();/*ユーザー表示*/
 }
 

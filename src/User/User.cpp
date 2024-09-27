@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/27 18:36:15 by kai11            ###   ########.fr       */
+/*   Updated: 2024/09/27 20:43:36 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,25 @@ irc::UserStatus irc::User::getStatus() const { return (this->_status); }
 
 void irc::User::dispatch()
 {
-    /* TODO[kkodaira] add */
+    if (_status == DELETE)
+        return ;
+
+    std::vector<Command*> used;
+    for (std::vector<Command*>::iterator it = _command.begin(); it != _command.end(); it++)
+    {
+        /*TODO created by kkodaira
+            コマンド実行*/
+        used.push_back(*it);
+    }
+
+    for (std::vector<Command*>::iterator it = used.begin(); it != used.end(); it++)
+    {
+        if (std::find(_command.begin(), _command.end(), *it) != _command.end())
+        {
+            _command.erase(std::find(_command.begin(), _command.end(), *it));
+            delete *it;
+        }
+    }
 }
 
 void irc::User::receive()
@@ -56,7 +74,7 @@ void irc::User::receive()
             continue ;
         _command.push_back(new Command(this, _server, message));
     }
-    // dispatch();
+    dispatch();
 }
 
 void irc::User::push()
