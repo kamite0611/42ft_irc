@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/18 20:10:05 by kkodaira         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:43:36 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <arpa/inet.h>
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
-                                                                      _server(server)
+                                                                      _server(server),
+                                                                      _status(REGISTER)
 {
     (void)address;
 }
@@ -29,7 +30,25 @@ irc::UserStatus irc::User::getStatus() const { return (this->_status); }
 
 void irc::User::dispatch()
 {
-    /* TODO[kkodaira] add */
+    if (_status == DELETE)
+        return ;
+
+    std::vector<Command*> used;
+    for (std::vector<Command*>::iterator it = _command.begin(); it != _command.end(); it++)
+    {
+        /*TODO created by kkodaira
+            コマンド実行*/
+        used.push_back(*it);
+    }
+
+    for (std::vector<Command*>::iterator it = used.begin(); it != used.end(); it++)
+    {
+        if (std::find(_command.begin(), _command.end(), *it) != _command.end())
+        {
+            _command.erase(std::find(_command.begin(), _command.end(), *it));
+            delete *it;
+        }
+    }
 }
 
 void irc::User::receive()
@@ -55,7 +74,7 @@ void irc::User::receive()
             continue ;
         _command.push_back(new Command(this, _server, message));
     }
-    // dispatch();
+    dispatch();
 }
 
 void irc::User::push()

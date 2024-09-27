@@ -13,10 +13,12 @@ _user(user), _server(server)
 		message = tmp; /*messageも:を含まない*/
 	}
 
-	// _parameters = irc::split(message);
-	// _prefix = _parameters[0];
-	// _parameters.erase(_parameters.begin());
+	_parameters = irc::split(message, " ");
+	_prefix = _parameters[0];
+	_parameters.erase(_parameters.begin());
 
-	// for (size_t i = 0; i < _prefix.length(); i++)
-	// 	_prefix[i] = std::toupper(_prefix[i]);
+	for (size_t i = 0; i < _prefix.length(); i++)
+		_prefix[i] = std::toupper(_prefix[i]);
 }
+
+irc::Command::~Command() {}
