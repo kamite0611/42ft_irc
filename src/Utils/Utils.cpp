@@ -35,6 +35,6 @@ void irc::put_pfds(std::vector<pollfd> pfds)
 						<< "----------- pfds -----------" << std::endl;
 	for (std::size_t i = 0; i < pfds.size(); i++)
 	{
-		std::cout << "pfds[" << i << "]: " << &pfds[i] << " " << pfds[i].fd << std::endl;
+		std::cout << "pfds[" << i << "]: " << &pfds[i] << " { fd: " << pfds[i].fd << " events: " << pfds[i].events << " }" << std::endl;
 	}
 }
