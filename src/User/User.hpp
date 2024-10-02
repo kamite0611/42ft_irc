@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/09/27 20:21:30 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/02 18:16:23 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ namespace irc
 
     enum UserStatus
     {
+        CAPLS,
+        PASSWORD,
         REGISTER, /*Userが接続だけして名前などの登録を行っていない*/
+        ONLINE,
         DELETE, /*削除*/
     };
 
@@ -41,10 +44,14 @@ namespace irc
     private:
         int _fd;
         std::string _nickname;
+        std::string _hostname;
+        std::string _hostaddr;
+        std::string _username;
         Server *_server;
         UserStatus _status;
         std::string _buffer;
         std::vector<Command*> _command;
+        std::vector<std::string> _waitToSend;
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
@@ -52,6 +59,11 @@ namespace irc
         /** Getters */
         std::string getNickname() const;
         UserStatus getStatus() const;
+        std::string getPrefix() const;
+        std::string getHost() const;
+
+        /** Setters*/
+        void setStatus(UserStatus status);
 
         /**  */
 
@@ -59,6 +71,8 @@ namespace irc
         void receive(); /*UserへのPOLLINイベント、コマンド作成*/
 
 		/*メッセージ送信*/
+        void write(const std::string& message);
+        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter);
 		void push();
     };
 }

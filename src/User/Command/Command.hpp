@@ -21,6 +21,15 @@ namespace irc
 	public:
 		Command(User* user, Server* server, std::string message);
 		~Command();
+
+		/*getters*/
+		std::vector<std::string>& getParameter();
+		irc::User& getUser();
+		std::string getReplyMessage(int code);
+		irc::Server& getServer();
+		std::string& getPrefix();
+
+		void reply(User& user, int code);
 	};
 }
 

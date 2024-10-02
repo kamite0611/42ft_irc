@@ -22,3 +22,9 @@ _user(user), _server(server)
 }
 
 irc::Command::~Command() {}
+
+/*getters*/
+std::vector<std::string>& irc::Command::getParameter() { return (_parameters); }
+irc::User& irc::Command::getUser() { return (*_user); }
+irc::Server& irc::Command::getServer() { return (*_server); }
+std::string& irc::Command::getPrefix() { return (_prefix); }
