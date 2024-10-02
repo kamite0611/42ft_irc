@@ -16,6 +16,7 @@
 namespace irc
 {
 	class User;
+	class Channel;
 
 	class Server
 	{
@@ -24,7 +25,7 @@ namespace irc
 		Display _display;
 
 		std::map<int, User *> _users;
-		// map<std::string, Channel>	channels;
+		std::map<std::string, Channel*>	_channels;
 		int _fd;
 		std::string _bootTime;
 		std::time_t _lastPingTime;
@@ -41,13 +42,14 @@ namespace irc
 		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
-		void init();
+		std::vector<irc::User*> getUsers();
+		std::vector<irc::Channel*> getChannels();
 
 		/** サーバー実行 */
+		void init();
 		void execute();
 
 		/*User操作*/
 		void delUser();
-		std::vector<irc::User*> getUsers(); /*Userをvector<User*>形式でget*/
 	};
 }

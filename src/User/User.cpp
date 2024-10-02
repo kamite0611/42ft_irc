@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/02 19:32:09 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/02 21:22:44 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@
 /*
 Command Functions
 */
-void    CAP(irc::Command* command);
+void CAP(irc::Command* command);
+void PASS(irc::Command* command);
+void NICK(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
                                                                       _status(REGISTER)
 {
     (void)address;
+    
 }
 
 irc::User::~User()
@@ -53,14 +56,16 @@ std::string irc::User::getHost() const
         return (_hostname);
     return (_hostaddr);
 }
+std::string irc::User::getMode() const { return (_mode); }
+std::string irc::User::getPastNickname() const { return (_pastNickname); };
+int irc::User::getFd() const { return (_fd); }
 
 /*
 Setters
 */
-void irc::User::setStatus(UserStatus status)
-{
-    _status = status;
-}
+void irc::User::setStatus(UserStatus status) { _status = status; }
+void irc::User::setPastNickname(const std::string& pastNickname) { _pastNickname = pastNickname; }
+void irc::User::setNickname(const std::string& nickname) { _nickname = nickname; }
 
 void irc::User::dispatch()
 {
