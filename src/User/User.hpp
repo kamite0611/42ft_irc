@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 15:07:30 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/04 16:06:43 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <string>
+#include <map>
 
 #include "Utils.hpp"
 #include "Command.hpp"
@@ -42,6 +43,7 @@ namespace irc
     class User
     {
     private:
+        std::map<std::string, void (*)(Command*)> _commandFunctions;
         int _fd;
         std::string _nickname;
         std::string _pastNickname;
@@ -55,7 +57,6 @@ namespace irc
         std::string _buffer;
         std::vector<Command*> _command;
         std::vector<std::string> _waitToSend;
-        std::map<std::string, void (*)(Command*)> _commandFunctions;
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
@@ -77,7 +78,7 @@ namespace irc
         void setRealname(const std::string& realname);
 
         /**  */
-
+        void completeUserRegistration(Command* command);
         void dispatch(); /*Command識別*/
         void receive(); /*UserへのPOLLINイベント、コマンド作成*/
 

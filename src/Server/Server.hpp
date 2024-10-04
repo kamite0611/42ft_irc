@@ -44,6 +44,12 @@ namespace irc
 		irc::Display &getDisplay();
 		std::vector<irc::User*> getUsers();
 		std::vector<irc::Channel*> getChannels();
+		std::string& _getBootTime();
+		size_t getVisibleCount();
+		size_t getInvisibleCount();
+		size_t getOperatorCount();
+		size_t getUnknownCount();
+		size_t getClientCount();
 
 		/** サーバー実行 */
 		void init();

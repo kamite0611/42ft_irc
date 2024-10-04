@@ -7,8 +7,8 @@ _user(user), _server(server)
 	size_t pos;
 	if ((pos = message.find(delimiter)) != std::string::npos)
 	{
-		std::string tmp = message.substr(0, pos + 1);
-		message.erase(0, pos);
+		std::string tmp = message.substr(0, pos);
+		message.erase(0, pos + delimiter.length());
 		_trailer = message; /*trailerは:を含まない*/
 		message = tmp; /*messageも:を含まない*/
 	}

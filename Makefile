@@ -6,7 +6,7 @@
 #    By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/10/04 14:57:44 by kai11            ###   ########.fr        #
+#    Updated: 2024/10/04 18:42:30 by kai11            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ FILES	= \
 	User/Command/Connection/PASS \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
+	User/Command/Server/LUSERS \
+	User/Command/Server/MOTD \
 	Utils/Utils
 
 DIRS = \
@@ -40,6 +42,7 @@ DIRS = \
 	User/ \
 	User/Command/ \
 	User/Command/Connection \
+	User/Command/Server \
 	Utils/
 
 INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))
