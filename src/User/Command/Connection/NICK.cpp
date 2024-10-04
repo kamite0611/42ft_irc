@@ -3,29 +3,29 @@
 void NICK(irc::Command* command)
 {
 	if (!command->getParameter()[0].length())
-		return (command->reply(431));
+		return (command->reply(command->getUser(), 431));
 	if (command->getUser().getMode().find('r') != std::string::npos)
-		return (command->reply(432));
+		return (command->reply(command->getUser(), 484));
 
 	/*nickname精査*/
 	std::string nickname;
 	nickname = command->getParameter()[0];
 	if (nickname.length() > 9)
-		return (command->reply(432));
+		return (command->reply(command->getUser(), 432, nickname));
 	int i = 0;
 	if (!irc::isAlpha(nickname[i]) && !irc::isSpecial(nickname[i]))
-		return (command->reply(432));
+		return (command->reply(command->getUser(), 432, nickname));
 	i++;
 	while (i++ < nickname.length())
 	{
 		if (!irc::isAlpha(nickname[i]) && !irc::isSpecial(nickname[i]) && !irc::isNum(nickname[i]))
-			return (command->reply(432));
+			return (command->reply(command->getUser(), 432, nickname));
 	}
 	std::vector<irc::User*> users = command->getServer().getUsers();
 	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
 	{
 		if ((*it)->getNickname() == nickname)
-			return (command->reply(433));
+			return (command->reply(command->getUser(), 433, nickname));
 	}
 
 	if (command->getUser().getNickname().length())
