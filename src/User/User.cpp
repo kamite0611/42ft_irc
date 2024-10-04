@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 14:53:07 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/04 15:08:40 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _status(REGISTER)
 {
     (void)address;
-    
+    _commandFunctions["CAP"] = CAP;
+    _commandFunctions["PASS"] = PASS;
+    _commandFunctions["NICK"] = NICK;
+    _commandFunctions["USER"] = USER;
 }
 
 irc::User::~User()

@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 14:52:04 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/04 15:07:30 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ namespace irc
         std::string _buffer;
         std::vector<Command*> _command;
         std::vector<std::string> _waitToSend;
+        std::map<std::string, void (*)(Command*)> _commandFunctions;
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
