@@ -6,7 +6,7 @@
 #    By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/10/04 14:19:02 by kai11            ###   ########.fr        #
+#    Updated: 2024/10/04 14:21:30 by kai11            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,14 @@ FILES	= \
 	User/Command/reply \
 	User/Command/Connection/CAP \
 	User/Command/Connection/PASS \
+	User/Command/Connection/NICK \
 	Utils/Utils
 
 DIRS = \
 	Server/ \
 	Server/Config/ \
 	Server/Display/ \
-	Server/Channel \
+	Server/Channel/ \
 	User/ \
 	User/Command/ \
 	User/Command/Connection \

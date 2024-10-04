@@ -55,18 +55,18 @@ std::vector<std::string> irc::split(std::string& str, const std::string& deli)
 	return (parameters);
 }
 
-bool isAlpha(char c)
+bool irc::isAlpha(char c)
 {
 	return (('a' <= c && c <= 'z') || \
 			('A' <= c && c <= 'Z'));
 }
 
-bool isSpecial(char c)
+bool irc::isSpecial(char c)
 {
 	return ('[' <= c && c <= '`');
 }
 
-bool isNum(char c)
+bool irc::isNum(char c)
 {
 	return ('0' <= c && c <= '9');
 }
