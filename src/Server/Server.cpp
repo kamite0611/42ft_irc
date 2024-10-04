@@ -1,5 +1,5 @@
+#include "Server.hpp"
 #include "irc.hpp"
-
 #include <sys/socket.h>
 #include <netinet/in.h>
 
@@ -139,6 +139,9 @@ void irc::Server::delUser()
 	/* TODO[kkodaira] add */
 }
 
+/** Getters */
+irc::Config &irc::Server::getConfig() { return (this->_config); }
+irc::Display &irc::Server::getDisplay() { return (this->_display); }
 std::vector<irc::User*> irc::Server::getUsers()
 {
 	std::vector<irc::User*> users;
@@ -149,7 +152,11 @@ std::vector<irc::User*> irc::Server::getUsers()
 	}
 	return (users);
 }
+std::vector<irc::Channel*> irc::Server::getChannels()
+{
+	std::vector<irc::Channel*> channels;
 
-/** Getters */
-irc::Config &irc::Server::getConfig() { return (this->_config); }
-irc::Display &irc::Server::getDisplay() { return (this->_display); }
+	for (std::map<std::string, irc::Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		channels.push_back(it->second);
+	return (channels);
+}

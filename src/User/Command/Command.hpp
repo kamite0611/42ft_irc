@@ -25,11 +25,12 @@ namespace irc
 		/*getters*/
 		std::vector<std::string>& getParameter();
 		irc::User& getUser();
-		std::string getReplyMessage(int code);
+		std::string getReplyMessage(int code, const std::string& arg1);
 		irc::Server& getServer();
 		std::string& getPrefix();
 
-		void reply(User& user, int code);
+		/*optional*/
+		void reply(User& user, int code, const std::string& arg1 = "");
 	};
 }
 

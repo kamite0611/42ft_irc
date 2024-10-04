@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:55:42 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/02 18:23:35 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/02 21:09:04 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "User.hpp"
 #include "Display.hpp"
 #include "Command.hpp"
+#include "Channel.hpp"
 
 #include <iostream>
 #include <csignal>

@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/02 18:16:23 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/02 21:22:16 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ namespace irc
     private:
         int _fd;
         std::string _nickname;
+        std::string _pastNickname;
         std::string _hostname;
         std::string _hostaddr;
         std::string _username;
+        std::string _mode;
         Server *_server;
         UserStatus _status;
         std::string _buffer;
@@ -61,9 +63,14 @@ namespace irc
         UserStatus getStatus() const;
         std::string getPrefix() const;
         std::string getHost() const;
+        std::string getMode() const;
+        std::string getPastNickname() const;
+        int getFd() const;
 
         /** Setters*/
         void setStatus(UserStatus status);
+        void setPastNickname(const std::string& pastNickname);
+        void setNickname(const std::string& nickname);
 
         /**  */
 
