@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 14:52:04 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/02 21:22:16 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ namespace irc
         std::string _hostname;
         std::string _hostaddr;
         std::string _username;
-        std::string _realname;
         std::string _mode;
         Server *_server;
         UserStatus _status;
@@ -72,8 +71,6 @@ namespace irc
         void setStatus(UserStatus status);
         void setPastNickname(const std::string& pastNickname);
         void setNickname(const std::string& nickname);
-        void setUsername(const std::string& username);
-        void setRealname(const std::string& realname);
 
         /**  */
 

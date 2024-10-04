@@ -28,7 +28,7 @@ namespace irc
 		std::string getReplyMessage(int code, const std::string& arg1);
 		irc::Server& getServer();
 		std::string& getPrefix();
-		std::string& getTrailer();
+		std::string& getTrailer
 
 		/*optional*/
 		void reply(User& user, int code, const std::string& arg1 = "");

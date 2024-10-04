@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 14:53:07 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/04 14:52:42 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ Setters
 void irc::User::setStatus(UserStatus status) { _status = status; }
 void irc::User::setPastNickname(const std::string& pastNickname) { _pastNickname = pastNickname; }
 void irc::User::setNickname(const std::string& nickname) { _nickname = nickname; }
-void irc::User::setUsername(const std::string& username) { _username = username; }
-void irc::User::setRealname(const std::string& realname) { _realname = realname; }
+void irc::User::setUsername(const std::string& username);
+void irc::User::setRealname(const std::string& realname);
 
 void irc::User::dispatch()
 {

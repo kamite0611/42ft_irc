@@ -32,10 +32,6 @@ std::string irc::Command::getReplyMessage(int code, const std::string& arg1)
 		return (arg1 + " :Erroneus nickname");
 	else if (code == 433)
 		return (arg1 + " :Nickname is already in use");
-	else if (code == 461)
-		return (arg1 + " :Not enough parameters");
-	else if (code == 462)
-		return (":You may not reregister");
 	else if (code == 484)
 		return (":Your connection is restricted!");
 }
