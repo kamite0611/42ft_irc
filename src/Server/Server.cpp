@@ -113,12 +113,16 @@ void irc::Server::execute()
 	}
 	else
 	{
+		std::cout << "-----------\n";
 		if (_pfds[0].revents == POLLIN)
 			_acceptUser();
-		for (std::vector<pollfd>::iterator it = _pfds.begin() + 1; it != _pfds.end(); it++)
+		else
 		{
-			if ((*it).revents == POLLIN)
-				_users[(*it).fd]->receive();
+			for (std::vector<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); ++it)
+			{
+				if ((*it).revents == POLLIN)
+					_users[(*it).fd]->receive();
+			}
 		}
 	}
 
@@ -159,4 +163,49 @@ std::vector<irc::Channel*> irc::Server::getChannels()
 	for (std::map<std::string, irc::Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
 		channels.push_back(it->second);
 	return (channels);
+}
+std::string& irc::Server::_getBootTime() { return (_bootTime); }
+size_t irc::Server::getVisibleCount()
+{
+	size_t count = 0;
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getMode().find('i') == std::string::npos)
+			count++;
+	}
+	return (count);
+}
+size_t irc::Server::getInvisibleCount()
+{
+	size_t count = 0;
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getMode().find('i') != std::string::npos)
+			count++;
+	}
+	return (count);
+}
+size_t irc::Server::getOperatorCount()
+{
+	size_t count = 0;
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getMode().find('o') != std::string::npos)
+			count++;
+	}
+	return (count);
+}
+size_t irc::Server::getUnknownCount()
+{
+	size_t count = 0;
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getStatus() != ONLINE)
+			count++;
+	}
+	return (count);
+}
+size_t irc::Server::getClientCount()
+{
+
 }

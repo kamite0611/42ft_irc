@@ -6,13 +6,16 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/02 21:22:44 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/04 20:50:06 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 #include <iostream>
 #include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
 
 /*
 Command Functions
@@ -20,13 +23,25 @@ Command Functions
 void CAP(irc::Command* command);
 void PASS(irc::Command* command);
 void NICK(irc::Command* command);
+void USER(irc::Command* command);
+void LUSERS(irc::Command* command);
+void MOTD(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
-                                                                      _status(REGISTER)
+                                                                      _status(irc::CAPLS)
 {
-    (void)address;
-    
+    fcntl(fd, F_SETFL, O_NONBLOCK);
+    _hostaddr = inet_ntoa(address.sin_addr);
+    char hostname[NI_MAXHOST];
+    if (getnameinfo((struct sockaddr *)&address, sizeof(address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0)
+        printError("getnameinfo", true);
+    else
+        _hostname = hostname;
+    _commandFunctions["CAP"] = CAP;
+    _commandFunctions["PASS"] = PASS;
+    _commandFunctions["NICK"] = NICK;
+    _commandFunctions["USER"] = USER;
 }
 
 irc::User::~User()
@@ -66,24 +81,50 @@ Setters
 void irc::User::setStatus(UserStatus status) { _status = status; }
 void irc::User::setPastNickname(const std::string& pastNickname) { _pastNickname = pastNickname; }
 void irc::User::setNickname(const std::string& nickname) { _nickname = nickname; }
+void irc::User::setUsername(const std::string& username) { _username = username; }
+void irc::User::setRealname(const std::string& realname) { _realname = realname; }
+
+void irc::User::completeUserRegistration(Command* command)
+{
+    std::cout << "===========\n";
+    command->reply(*this, 1, getPrefix());
+    command->reply(*this, 2, getHost(), _server->getConfig().get("version"));
+    command->reply(*this, 3, _server->_getBootTime());
+    command->reply(*this, 4, _server->getConfig().get("name"), _server->getConfig().get("version"), \
+    _server->getConfig().get("user_mode"), _server->getConfig().get("channel_givemode"));
+
+    LUSERS(command);
+    MOTD(command);
+}
 
 void irc::User::dispatch()
 {
-    if (_status == DELETE)
+    std::cout << "***************\n";
+    UserStatus lastStatus = _status;
+    if (lastStatus == DELETE)
         return ;
 
-    
     std::vector<Command*> used;
     for (std::vector<Command*>::iterator it = _command.begin(); it != _command.end(); it++)
     {
-        if ((*it)->getUser().getStatus() == CAPLS && (*it)->getPrefix() != "CAP")
-            continue ;
-        if ((*it)->getUser().getStatus() == PASSWORD && (*it)->getPrefix() != "PASS")
-            continue ;
-        if ((*it)->getUser().getStatus() == REGISTER && ((*it)->getPrefix() != "NICK" || (*it)->getPrefix() != "USER"))
-            continue ;
-        /*TODO created by kkodaira
-            コマンド実行*/
+		std::cout << (*it)->getPrefix() << std::endl;
+        if (lastStatus == CAPLS)
+        {
+            if ((*it)->getPrefix() != "CAP")
+                continue ;
+        }
+        else if (lastStatus == PASSWORD)
+        {
+            if ((*it)->getPrefix() != "PASS")
+                continue ;
+        }
+        else if (lastStatus == REGISTER)
+        {
+            if ((*it)->getPrefix() != "NICK" && (*it)->getPrefix() != "USER")
+                continue ;
+        }
+        if (_commandFunctions.count((*it)->getPrefix()))
+            _commandFunctions[(*it)->getPrefix()]((*it));
         used.push_back(*it);
     }
 
@@ -95,20 +136,45 @@ void irc::User::dispatch()
             delete *it;
         }
     }
+
+    if (lastStatus == REGISTER)
+    {
+        if (_nickname.length() && _realname.length())
+            setStatus(ONLINE);
+    }
+
+    if (lastStatus != _status)
+    {
+        std::cout << "$$$$$$$$$$$$$$\n";
+        if (_status == ONLINE)
+        {
+            Command* command = new Command(this, _server, "");
+            completeUserRegistration(command);
+            delete command;
+        }
+        dispatch();
+    }
 }
 
 void irc::User::receive()
 {
-    char    buffer[BUFFER_SIZE + 1];
-    ssize_t recv_bytes;
+	std::cout << "=============\n";
+    {
+        char    buffer[BUFFER_SIZE + 1];
+        ssize_t recv_bytes;
 
-    if ((recv_bytes = recv(_fd, buffer, BUFFER_SIZE, 0)) == -1) /*readでもいいかも*/
-        irc::printError("recv", true);
-    if (recv_bytes == 0)
-        _status = DELETE; /*POLLINが起きているのに読み取りがないので、相手が接続を正常終了した*/
-    buffer[recv_bytes] = '\0';
-    std::cout << "=============\n" << buffer << std::endl;
-    _buffer += buffer;
+        if ((recv_bytes = recv(_fd, &buffer, BUFFER_SIZE, 0)) == -1) /*readでもいいかも*/
+            irc::printError("recv", true);
+        if (recv_bytes == 0)
+        {
+            _status = DELETE; /*POLLINが起きているのに読み取りがないので、相手が接続を正常終了した*/
+            return ;
+        }
+        buffer[recv_bytes] = 0;
+        _buffer += buffer;
+        std::cout << "buffer=" << _buffer << std::endl;
+    }
+    std::cout << "ending\n";
 
     std::string delimiter(MESSAGE_END);
     size_t  pos;
@@ -117,11 +183,11 @@ void irc::User::receive()
         std::string message = \
         _buffer.substr(0, pos); /*messageには終端文字\r\nは含まない*/
         _buffer.erase(0, pos + delimiter.length());
-        if (message.length() == 0)
+        if (!message.length())
             continue ;
         _command.push_back(new Command(this, _server, message));
     }
-    dispatch();
+    // dispatch();
 }
 
 void irc::User::write(const std::string& message)
