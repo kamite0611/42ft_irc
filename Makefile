@@ -28,9 +28,9 @@ FILES	= \
 
 DIRS = \
 	Server/ \
+	Server/Channel/ \
 	Server/Config/ \
 	Server/Display/ \
-	Server/Channel/ \
 	User/ \
 	User/Command/ \
 	User/Command/Connection \

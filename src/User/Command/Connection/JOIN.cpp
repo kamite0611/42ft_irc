@@ -28,7 +28,7 @@ void JOIN(irc::Command *command)
 
   command->getServer().createOrFindChannel(channelName);
 
-  put_channels(server.getChannels());
+  // put_channels(server.getChannels());
 
   std::cout << "params[0]: " << params[0] << std::endl;
   std::cout << "Hello join!" << std::endl;

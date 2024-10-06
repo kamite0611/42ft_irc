@@ -33,8 +33,8 @@ namespace irc
 
 		void _acceptUser();							 /** Userの追加 */
 		void _disconnectUser();					 /** Userの削除 */
-		void _sendPing();								 /*pingの送信*/
-		std::vector<User *> _getUsers(); /*User列の取得*/
+		void _sendPing();								 /** pingの送信*/
+		std::vector<User *> _getUsers(); /** User列の取得*/
 
 	public:
 		Server();
