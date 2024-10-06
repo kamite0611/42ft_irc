@@ -28,19 +28,19 @@ void	irc::Config::init(std::string fileName)
 				value += contentLine;
 			}
 		}
-		this->values[key] = value;
+		this->_values[key] = value;
 	}
 	file.close(); //スコープを抜けると自動でcloseされる
 }
 
 void	irc::Config::set(std::string key, std::string value)
 {
-	this->values[key] = value;
+	this->_values[key] = value;
 }
 
 std::string	irc::Config::get(std::string key)
 {
-	return (this->values[key]);
+	return (this->_values[key]);
 }
 
 irc::Config::Config()

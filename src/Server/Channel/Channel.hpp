@@ -2,21 +2,27 @@
 
 #include <string>
 #include <map>
+#include "User.hpp"
 
-irc	namespace
+namespace irc
 {
 	class	Channel
 	{
 	private:
-		std::string					name;
-		std::string					topic;
-		// std::map<int, irc::User*>	users;
-		std::string					mode;
-		std::map<int, std::string>	useMode;
-		std::string					password;
-		std::string					maxUsers;
-		// std::vector<irc::User*>		invitedUser;
+		std::string					_name;
+		std::string					_topic;
+		std::map<int, irc::User*>	_users;
+		std::string					_mode;
+		std::map<int, std::string>	_useMode;
+		std::string					_password;
+		std::string					_maxUsers;
+		std::vector<irc::User*>		_invitedUser;
 	public:
 		Channel();
-	}
+		
+		/*getters*/
+		std::vector<irc::User*> getUsers();
+
+		bool isUser(User& user);
+	};
 }

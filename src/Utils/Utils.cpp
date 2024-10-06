@@ -31,10 +31,40 @@ std::string irc::currentTime()
  */
 void irc::put_pfds(std::vector<pollfd> pfds)
 {
-	std::cout << std::endl
-						<< "----------- pfds -----------" << std::endl;
 	for (std::size_t i = 0; i < pfds.size(); i++)
 	{
 		std::cout << "pfds[" << i << "]: " << &pfds[i] << " { fd: " << pfds[i].fd << " events: " << pfds[i].events << " }" << std::endl;
 	}
+}
+
+std::vector<std::string> irc::split(std::string &str, const std::string &deli)
+{
+	std::vector<std::string> parameters;
+	size_t pos = 0;
+	size_t nextPos = 0;
+
+	while ((pos = str.find(deli, pos + 1)) != std::string::npos)
+	{
+		parameters.push_back(str.substr(0, pos));
+		str.erase(0, pos + 1);
+		pos = 0;
+	}
+	parameters.push_back(str);
+	return (parameters);
+}
+
+bool irc::isAlpha(char c)
+{
+	return (('a' <= c && c <= 'z') ||
+					('A' <= c && c <= 'Z'));
+}
+
+bool irc::isSpecial(char c)
+{
+	return ('[' <= c && c <= '`');
+}
+
+bool irc::isNum(char c)
+{
+	return ('0' <= c && c <= '9');
 }
