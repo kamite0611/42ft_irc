@@ -6,7 +6,7 @@
 /*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/06 16:56:58 by akamite          ###   ########.fr       */
+/*   Updated: 2024/10/06 18:23:34 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,19 @@ void irc::User::dispatch()
             delete *it;
         }
     }
+    if (DEBUG)
+    {
+        std::cout << "now commands\n";
+        for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+            std::cout << (*it)->getPrefix() << std::endl;
+    }
 
     if (lastStatus == REGISTER)
     {
         if (_nickname.length() && _realname.length())
+        {
             setStatus(ONLINE);
+        }
     }
 
     if (lastStatus != _status)
@@ -167,7 +175,6 @@ void irc::User::receive()
         }
         buffer[recv_bytes] = 0;
         _buffer += buffer;
-        std::cout << "buffer=" << _buffer << std::endl;
     }
 
     std::string delimiter(MESSAGE_END);
