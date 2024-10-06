@@ -1,18 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/10/06 17:32:22 by akamite          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME	= ircserv
 CC		= c++
 FLAGS	= -std=c++98 #-Wall -Wextra -Werror
+
+DEBUG_FLAG = -DDEBUG=1
 
 OBJ_DIR	= objs/
 SRC_DIR = src/
@@ -75,8 +65,9 @@ fclean: clean
 
 re: fclean all
 
+debug: INCS += $(DEBUG_FLAG)
 debug: re
-	./$(NAME)
+	./$(NAME) 6667 password
 
 run: all
 	./$(NAME) 6667 password

@@ -8,8 +8,8 @@
 #include <vector>
 #include <poll.h>
 
-#ifndef DEBAG
-#define DEBAG 0
+#ifndef DEBUG
+#define DEBUG 0
 #endif
 
 namespace irc
