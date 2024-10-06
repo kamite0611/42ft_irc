@@ -275,8 +275,9 @@ bool irc::Server::isExistChannel(std::string channelName) { return _channels.cou
 irc::Channel &irc::Server::createOrFindChannel(std::string channelName)
 {
 	bool exist = isExistChannel(channelName);
-	Channel &channel = _channels[channelName];
 
+	std::cout << "exist: " << exist << std::endl;
+	Channel &channel = _channels[channelName];
 	if (!exist)
 	{
 		channel.setName(channelName);

@@ -28,8 +28,10 @@ namespace irc
 		/* setters */
 		void setName(std::string name);
 
+		/** User操作 */
 		bool isUser(User &user);
 		bool isThereInvitedUser();
+		void addUser(User &user);
 		void delUser(User &user);
 	};
 }

@@ -1,4 +1,5 @@
 #include "Utils.hpp"
+#include "Channel.hpp"
 
 void irc::printError(std::string msg, bool stop)
 {
@@ -40,16 +41,16 @@ void irc::put_pfds(std::vector<pollfd> pfds)
 /**
  * std::vector<irc::Channel *> を標準出力する
  */
-// void irc::put_channels(std::vector<irc::Channel *> channels)
-// {
-// 	int i = 0;
-// 	std::cout << "---------- channels ----------" << std::endl;
-// 	for (auto it = channels.begin(); it != channels.end(); ++it)
-// 	{
-// 		std::cout << "channels[" << i << "]: { name: " << (*it)->getName() << " }" << std::endl;
-// 		i++;
-// 	}
-// }
+void irc::put_channels(std::vector<irc::Channel *> channels)
+{
+	int i = 0;
+	std::cout << "---------- channels ----------" << std::endl;
+	for (auto it = channels.begin(); it != channels.end(); ++it)
+	{
+		std::cout << "channels[" << i << "]: { name: " << (*it)->getName() << " }" << std::endl;
+		i++;
+	}
+}
 
 std::vector<std::string> irc::split(std::string &str, const std::string &deli)
 {

@@ -14,11 +14,13 @@
 
 namespace irc
 {
+	class Channel;
+
 	void printError(std::string msg, bool stop);
 	std::string currentTime();
 	std::string stoi(int nbr);
 	void put_pfds(std::vector<pollfd> pfds);
-	// void put_channels(std::vector<irc::Channel *> channels);
+	void put_channels(std::vector<irc::Channel *> channels);
 
 	std::vector<std::string> split(std::string &str, const std::string &deli);
 	bool isAlpha(char c);
