@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   User.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/06 18:23:34 by kai11            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "User.hpp"
 #include <iostream>
 #include <arpa/inet.h>
@@ -26,6 +14,7 @@ void NICK(irc::Command *command);
 void USER(irc::Command *command);
 void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
+void JOIN(irc::Command *command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
@@ -42,6 +31,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["PASS"] = PASS;
     _commandFunctions["NICK"] = NICK;
     _commandFunctions["USER"] = USER;
+
+    _commandFunctions["JOIN"] = JOIN;
 }
 
 irc::User::~User()
