@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.tpp": "cpp",
+    "vector": "cpp",
+    "string": "cpp"
+  }
+}
