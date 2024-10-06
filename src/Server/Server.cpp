@@ -52,6 +52,7 @@ void irc::Server::_sendPing()
 std::vector<irc::User *> irc::Server::_getUsers()
 {
 	/* TODO[kkodaira] add */
+	return std::vector<irc::User *>();
 }
 
 /*---------------- Public Functions  ----------------*/
@@ -134,7 +135,7 @@ void irc::Server::execute()
 	users = getUsers();
 	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
 		(*it)->push(); /*メッセージ送信*/
-					   // users.displayUsers();/*ユーザー表示*/
+									 // users.displayUsers();/*ユーザー表示*/
 	if (DEBUG)
 	{
 		std::cout << "\n=====Now User=====\n";
@@ -148,17 +149,17 @@ void irc::Server::delUser(irc::User &user)
 	std::vector<irc::User *> receipients;
 
 	receipients.push_back(&user);
-	std::vector<irc::Channel *> emptyChannels;
-	for (std::map<std::string, Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	std::vector<irc::Channel> emptyChannels;
+	for (std::map<std::string, Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
 	{
-		if (it->second->isUser(user))
+		if (it->second.isUser(user))
 		{
-			it->second->delUser(user);
-			if (it->second->getUsers().size() == 0)
+			it->second.delUser(user);
+			if (it->second.getUsers().size() == 0)
 				emptyChannels.push_back(it->second);
 			else
 			{
-				std::vector<irc::User *> users = it->second->getUsers();
+				std::vector<irc::User *> users = it->second.getUsers();
 				for (std::vector<irc::User *>::iterator itUser = users.begin(); itUser != users.end(); itUser++)
 				{
 					if (std::find(receipients.begin(), receipients.end(), *itUser) != receipients.end())
@@ -167,11 +168,11 @@ void irc::Server::delUser(irc::User &user)
 			}
 		}
 	}
-	for (std::vector<irc::Channel *>::iterator it = emptyChannels.begin(); it != emptyChannels.end(); it++)
+	for (std::vector<irc::Channel>::iterator it = emptyChannels.begin(); it != emptyChannels.end(); it++)
 	{
 		/*招待されているユーザーがいるときは消さない*/
-		if (!(*it)->isThereInvitedUser())
-			delChannel(*(*it));
+		if (!(*it).isThereInvitedUser())
+			delChannel(*it);
 	}
 
 	for (std::vector<irc::User *>::iterator it = receipients.begin(); it != receipients.end(); it++)
@@ -182,13 +183,13 @@ void irc::Server::delUser(irc::User &user)
 		if ((*it).fd == user.getFd())
 		{
 			_pfds.erase(it);
-			break ;
+			break;
 		}
 	}
 	delete &user;
 }
 
-void irc::Server::delChannel(irc::Channel& channel)
+void irc::Server::delChannel(irc::Channel &channel)
 {
 	_channels.erase(channel.getName());
 }
@@ -206,14 +207,20 @@ std::vector<irc::User *> irc::Server::getUsers()
 	}
 	return (users);
 }
+
+/**
+ * Getter _channelsを取得する
+ * std::map<チャンネル名, Obj> → std::vector<irc::Channel *> で出力される
+ */
 std::vector<irc::Channel *> irc::Server::getChannels()
 {
 	std::vector<irc::Channel *> channels;
 
-	for (std::map<std::string, irc::Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
-		channels.push_back(it->second);
+	for (std::map<std::string, irc::Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		channels.push_back(&(*it).second);
 	return (channels);
 }
+
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
 {
@@ -257,4 +264,24 @@ size_t irc::Server::getUnknownCount()
 }
 size_t irc::Server::getClientCount()
 {
+	return 0;
+}
+
+/**
+ * -------- Channels func ---------
+ */
+bool irc::Server::isExistChannel(std::string channelName) { return _channels.count(channelName) > 0; }
+
+irc::Channel &irc::Server::createOrFindChannel(std::string channelName)
+{
+	bool exist = isExistChannel(channelName);
+
+	std::cout << "exist: " << exist << std::endl;
+	Channel &channel = _channels[channelName];
+	if (!exist)
+	{
+		channel.setName(channelName);
+	}
+
+	return channel;
 }
