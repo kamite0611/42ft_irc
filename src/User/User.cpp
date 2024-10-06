@@ -14,6 +14,7 @@ void NICK(irc::Command *command);
 void USER(irc::Command *command);
 void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
+void QUIT(irc::Command* command);
 void JOIN(irc::Command *command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
@@ -31,7 +32,7 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["PASS"] = PASS;
     _commandFunctions["NICK"] = NICK;
     _commandFunctions["USER"] = USER;
-
+    _commandFunctions["QUIT"] = QUIT;
     _commandFunctions["JOIN"] = JOIN;
 }
 
@@ -65,6 +66,12 @@ std::string irc::User::getHost() const
 std::string irc::User::getMode() const { return (_mode); }
 std::string irc::User::getPastNickname() const { return (_pastNickname); };
 int irc::User::getFd() const { return (_fd); }
+std::string irc::User::getQuitMessage() const 
+{
+    if (_quitMessage.length())
+        return (_quitMessage);
+    return ("Client Quit");
+}
 
 /*
 Setters
@@ -74,6 +81,8 @@ void irc::User::setPastNickname(const std::string &pastNickname) { _pastNickname
 void irc::User::setNickname(const std::string &nickname) { _nickname = nickname; }
 void irc::User::setUsername(const std::string &username) { _username = username; }
 void irc::User::setRealname(const std::string &realname) { _realname = realname; }
+void irc::User::setQuitMessage(const std::string& quitMessage) { _quitMessage = quitMessage; }
+
 
 void irc::User::completeUserRegistration(Command *command)
 {
@@ -91,8 +100,14 @@ void irc::User::dispatch()
 {
     UserStatus lastStatus = _status;
     if (lastStatus == DELETE)
-        return;
+        return ;
 
+    // if (DEBUG)
+    // {
+    //     std::cout << "now commands\n";
+    //     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+    //         std::cout << (*it)->getPrefix() << std::endl;
+    // }
     std::vector<Command *> used;
     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
     {
@@ -123,12 +138,6 @@ void irc::User::dispatch()
             _command.erase(std::find(_command.begin(), _command.end(), *it));
             delete *it;
         }
-    }
-    if (DEBUG)
-    {
-        std::cout << "now commands\n";
-        for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
-            std::cout << (*it)->getPrefix() << std::endl;
     }
 
     if (lastStatus == REGISTER)

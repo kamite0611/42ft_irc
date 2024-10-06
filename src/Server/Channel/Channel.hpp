@@ -21,13 +21,15 @@ namespace irc
 	public:
 		Channel();
 
-		/* getters */
+		/*getters*/
 		std::vector<irc::User *> getUsers();
-		std::string getName() { return _name; };
+		std::string getName();
 
 		/* setters */
 		void setName(std::string name);
 
 		bool isUser(User &user);
+		bool isThereInvitedUser();
+		void delUser(User &user);
 	};
 }

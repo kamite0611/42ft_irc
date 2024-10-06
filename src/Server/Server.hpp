@@ -56,10 +56,11 @@ namespace irc
 		void execute();
 
 		/*User操作*/
-		void delUser();
+		void delUser(irc::User &user);
 
-		/** Channel操作 */
+		/*Channel操作*/
 		bool isExistChannel(std::string channelName);
 		irc::Channel &createOrFindChannel(std::string channelName);
+		void delChannel(irc::Channel &channel);
 	};
 }

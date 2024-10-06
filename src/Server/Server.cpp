@@ -129,17 +129,68 @@ void irc::Server::execute()
 	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
 	{
 		if ((*it)->getStatus() == DELETE)
-			delUser();
+			delUser(*(*it));
 	}
 	users = getUsers();
 	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
 		(*it)->push(); /*メッセージ送信*/
-									 // users.displayUsers();/*ユーザー表示*/
+					   // users.displayUsers();/*ユーザー表示*/
+	if (DEBUG)
+	{
+		std::cout << "\n=====Now User=====\n";
+		for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+			std::cout << "User=" << it->second->getPrefix() << std::endl;
+	}
 }
 
-void irc::Server::delUser()
+void irc::Server::delUser(irc::User &user)
 {
-	/* TODO[kkodaira] add */
+	std::vector<irc::User *> receipients;
+
+	receipients.push_back(&user);
+	std::vector<irc::Channel *> emptyChannels;
+	for (std::map<std::string, Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	{
+		if (it->second->isUser(user))
+		{
+			it->second->delUser(user);
+			if (it->second->getUsers().size() == 0)
+				emptyChannels.push_back(it->second);
+			else
+			{
+				std::vector<irc::User *> users = it->second->getUsers();
+				for (std::vector<irc::User *>::iterator itUser = users.begin(); itUser != users.end(); itUser++)
+				{
+					if (std::find(receipients.begin(), receipients.end(), *itUser) != receipients.end())
+						receipients.push_back(*itUser);
+				}
+			}
+		}
+	}
+	for (std::vector<irc::Channel *>::iterator it = emptyChannels.begin(); it != emptyChannels.end(); it++)
+	{
+		/*招待されているユーザーがいるときは消さない*/
+		if (!(*it)->isThereInvitedUser())
+			delChannel(*(*it));
+	}
+
+	for (std::vector<irc::User *>::iterator it = receipients.begin(); it != receipients.end(); it++)
+		user.sendTo(*(*it), "Quit: " + (*it)->getQuitMessage());
+	_users.erase(user.getFd());
+	for (std::vector<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
+	{
+		if ((*it).fd == user.getFd())
+		{
+			_pfds.erase(it);
+			break ;
+		}
+	}
+	delete &user;
+}
+
+void irc::Server::delChannel(irc::Channel& channel)
+{
+	_channels.erase(channel.getName());
 }
 
 /** Getters */

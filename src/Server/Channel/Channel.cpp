@@ -11,6 +11,7 @@ std::vector<irc::User *> irc::Channel::getUsers()
 		users.push_back(it->second);
 	return (users);
 }
+std::string irc::Channel::getName() { return (_name); }
 
 bool irc::Channel::isUser(irc::User &user)
 {
@@ -19,3 +20,13 @@ bool irc::Channel::isUser(irc::User &user)
 
 /* setters */
 void irc::Channel::setName(std::string name) { _name = name; }
+
+bool irc::Channel::isThereInvitedUser()
+{
+	return (_invitedUser.size());
+}
+
+void irc::Channel::delUser(User &user)
+{
+	_users.erase(user.getFd());
+}

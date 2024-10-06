@@ -20,6 +20,7 @@ FILES	= \
 	User/Command/Connection/PASS \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
+	User/Command/Connection/QUIT \
 	User/Command/Connection/JOIN \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
