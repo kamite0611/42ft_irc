@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/04 16:06:43 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/06 20:09:45 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ namespace irc
         std::string _buffer;
         std::vector<Command*> _command;
         std::vector<std::string> _waitToSend;
+        std::string _quitMessage;
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
@@ -69,6 +70,7 @@ namespace irc
         std::string getMode() const;
         std::string getPastNickname() const;
         int getFd() const;
+        std::string getQuitMessage() const;
 
         /** Setters*/
         void setStatus(UserStatus status);
@@ -76,6 +78,7 @@ namespace irc
         void setNickname(const std::string& nickname);
         void setUsername(const std::string& username);
         void setRealname(const std::string& realname);
+        void setQuitMessage(const std::string& quitMessage);
 
         /**  */
         void completeUserRegistration(Command* command);
@@ -84,7 +87,7 @@ namespace irc
 
 		/*メッセージ送信*/
         void write(const std::string& message);
-        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter);
+        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter = "");
 		void push();
     };
 }
