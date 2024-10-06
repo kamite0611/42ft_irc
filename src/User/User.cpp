@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/06 18:23:34 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/06 19:12:31 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void NICK(irc::Command *command);
 void USER(irc::Command *command);
 void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
+void QUIT(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
@@ -42,6 +43,7 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["PASS"] = PASS;
     _commandFunctions["NICK"] = NICK;
     _commandFunctions["USER"] = USER;
+    _commandFunctions["QUIT"] = QUIT;
 }
 
 irc::User::~User()
@@ -74,6 +76,7 @@ std::string irc::User::getHost() const
 std::string irc::User::getMode() const { return (_mode); }
 std::string irc::User::getPastNickname() const { return (_pastNickname); };
 int irc::User::getFd() const { return (_fd); }
+std::string irc::User::getQuitMessage() const { return (_quitMessage); }
 
 /*
 Setters
@@ -83,6 +86,8 @@ void irc::User::setPastNickname(const std::string &pastNickname) { _pastNickname
 void irc::User::setNickname(const std::string &nickname) { _nickname = nickname; }
 void irc::User::setUsername(const std::string &username) { _username = username; }
 void irc::User::setRealname(const std::string &realname) { _realname = realname; }
+void irc::User::setQuitMessage(const std::string& quitMessage) { _quitMessage = quitMessage; }
+
 
 void irc::User::completeUserRegistration(Command *command)
 {
