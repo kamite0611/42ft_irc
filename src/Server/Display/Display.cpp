@@ -7,7 +7,7 @@
 
 void	irc::Display::update()
 {
-	if (DEBAG)
+	if (DEBUG)
 		return ;
 	// clearScreen();
 	for (std::map<unsigned int, std::string>::iterator it = this->_lines.begin(); \

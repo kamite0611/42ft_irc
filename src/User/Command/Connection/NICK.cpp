@@ -4,8 +4,8 @@ void NICK(irc::Command* command)
 {
 	if (!command->getParameter()[0].length())
 		return (command->reply(command->getUser(), 431));
-	if (command->getUser().getMode().find('r') != std::string::npos)
-		return (command->reply(command->getUser(), 484));
+	// if (command->getUser().getMode().find('r') != std::string::npos)
+	// 	return (command->reply(command->getUser(), 484));
 
 	/*nickname精査*/
 	std::string nickname;
@@ -16,10 +16,11 @@ void NICK(irc::Command* command)
 	if (!irc::isAlpha(nickname[i]) && !irc::isSpecial(nickname[i]))
 		return (command->reply(command->getUser(), 432, nickname));
 	i++;
-	while (i++ < nickname.length())
+	while (nickname[i])
 	{
 		if (!irc::isAlpha(nickname[i]) && !irc::isSpecial(nickname[i]) && !irc::isNum(nickname[i]))
 			return (command->reply(command->getUser(), 432, nickname));
+		i++;
 	}
 	std::vector<irc::User*> users = command->getServer().getUsers();
 	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
@@ -27,7 +28,6 @@ void NICK(irc::Command* command)
 		if ((*it)->getNickname() == nickname)
 			return (command->reply(command->getUser(), 433, nickname));
 	}
-
 	if (command->getUser().getNickname().length())
 		command->getUser().setPastNickname(command->getUser().getNickname());
 

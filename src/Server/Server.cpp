@@ -49,7 +49,7 @@ void irc::Server::_sendPing()
 	/* TODO[kkodaira] add */
 }
 
-std::vector<irc::User*> irc::Server::_getUsers()
+std::vector<irc::User *> irc::Server::_getUsers()
 {
 	/* TODO[kkodaira] add */
 }
@@ -113,7 +113,6 @@ void irc::Server::execute()
 	}
 	else
 	{
-		std::cout << "-----------\n";
 		if (_pfds[0].revents == POLLIN)
 			_acceptUser();
 		else
@@ -126,16 +125,16 @@ void irc::Server::execute()
 		}
 	}
 
-	std::vector<irc::User*> users = getUsers();
-	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
+	std::vector<irc::User *> users = getUsers();
+	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
 	{
 		if ((*it)->getStatus() == DELETE)
 			delUser();
 	}
 	users = getUsers();
-	for (std::vector<irc::User*>::iterator it = users.begin(); it != users.end(); it++)
-		(*it)->push();/*メッセージ送信*/
-	// users.displayUsers();/*ユーザー表示*/
+	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
+		(*it)->push(); /*メッセージ送信*/
+									 // users.displayUsers();/*ユーザー表示*/
 }
 
 void irc::Server::delUser()
@@ -146,25 +145,25 @@ void irc::Server::delUser()
 /** Getters */
 irc::Config &irc::Server::getConfig() { return (this->_config); }
 irc::Display &irc::Server::getDisplay() { return (this->_display); }
-std::vector<irc::User*> irc::Server::getUsers()
+std::vector<irc::User *> irc::Server::getUsers()
 {
-	std::vector<irc::User*> users;
+	std::vector<irc::User *> users;
 
-	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); it++)
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
 	{
 		users.push_back(it->second);
 	}
 	return (users);
 }
-std::vector<irc::Channel*> irc::Server::getChannels()
+std::vector<irc::Channel *> irc::Server::getChannels()
 {
-	std::vector<irc::Channel*> channels;
+	std::vector<irc::Channel *> channels;
 
-	for (std::map<std::string, irc::Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+	for (std::map<std::string, irc::Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
 		channels.push_back(it->second);
 	return (channels);
 }
-std::string& irc::Server::_getBootTime() { return (_bootTime); }
+std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
 {
 	size_t count = 0;
@@ -207,5 +206,4 @@ size_t irc::Server::getUnknownCount()
 }
 size_t irc::Server::getClientCount()
 {
-
 }
