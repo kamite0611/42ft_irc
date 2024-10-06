@@ -67,12 +67,12 @@ re: fclean all
 
 debug: INCS += $(DEBUG_FLAG)
 debug: re
-	./$(NAME) 6667 password
+	./$(NAME) 6667 pass
 
 run: all
-	./$(NAME) 6667 password
+	./$(NAME) 6667 pass
 
 run_client:
-	irssi -c localhost -w password
+	irssi -c localhost -w pass
 
 .PHONY: all clean fclean re
