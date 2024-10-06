@@ -74,6 +74,6 @@ run: all
 	./$(NAME) 6667 pass
 
 run_client:
-	irssi -c localhost -w pass
+	irssi -c localhost -w pass -p 6667 -n DebugUser
 
 .PHONY: all clean fclean re
