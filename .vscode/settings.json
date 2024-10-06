@@ -3,6 +3,7 @@
     "*.tsx": "typescriptreact",
     "*.tpp": "cpp",
     "vector": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "new": "cpp"
   }
 }

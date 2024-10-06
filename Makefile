@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+         #
+#    By: akamite <akamite@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/10/04 18:42:30 by kai11            ###   ########.fr        #
+#    Updated: 2024/10/06 17:32:22 by akamite          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ FILES	= \
 	User/Command/Connection/PASS \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
+	User/Command/Connection/JOIN \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	Utils/Utils
