@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:39:10 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/06 19:12:31 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/06 20:55:32 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,12 @@ std::string irc::User::getHost() const
 std::string irc::User::getMode() const { return (_mode); }
 std::string irc::User::getPastNickname() const { return (_pastNickname); };
 int irc::User::getFd() const { return (_fd); }
-std::string irc::User::getQuitMessage() const { return (_quitMessage); }
+std::string irc::User::getQuitMessage() const 
+{
+    if (_quitMessage.length())
+        return (_quitMessage);
+    return ("Client Quit");
+}
 
 /*
 Setters
@@ -105,8 +110,14 @@ void irc::User::dispatch()
 {
     UserStatus lastStatus = _status;
     if (lastStatus == DELETE)
-        return;
+        return ;
 
+    // if (DEBUG)
+    // {
+    //     std::cout << "now commands\n";
+    //     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+    //         std::cout << (*it)->getPrefix() << std::endl;
+    // }
     std::vector<Command *> used;
     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
     {
@@ -137,12 +148,6 @@ void irc::User::dispatch()
             _command.erase(std::find(_command.begin(), _command.end(), *it));
             delete *it;
         }
-    }
-    if (DEBUG)
-    {
-        std::cout << "now commands\n";
-        for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
-            std::cout << (*it)->getPrefix() << std::endl;
     }
 
     if (lastStatus == REGISTER)

@@ -56,6 +56,9 @@ namespace irc
 		void execute();
 
 		/*User操作*/
-		void delUser();
+		void delUser(irc::User& user);
+
+		/*Channel操作*/
+		void delChannel(irc::Channel& channel);
 	};
 }

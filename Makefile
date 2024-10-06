@@ -6,7 +6,7 @@
 #    By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/31 21:29:27 by akamite           #+#    #+#              #
-#    Updated: 2024/10/06 18:26:57 by kai11            ###   ########.fr        #
+#    Updated: 2024/10/06 20:36:33 by kai11            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ FILES	= \
 	User/Command/Connection/PASS \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
+	User/Command/Connection/QUIT \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	Utils/Utils

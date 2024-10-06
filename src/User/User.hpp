@@ -6,7 +6,7 @@
 /*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/06 19:11:06 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/06 20:09:45 by kai11            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ namespace irc
 
 		/*メッセージ送信*/
         void write(const std::string& message);
-        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter);
+        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter = "");
 		void push();
     };
 }
