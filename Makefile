@@ -66,7 +66,7 @@ fclean: clean
 re: fclean all
 
 debug: INCS += $(DEBUG_FLAG)
-debug: re
+debug: all
 	./$(NAME) 6667 pass
 
 run: all

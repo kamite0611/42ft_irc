@@ -25,16 +25,16 @@ namespace irc
 		Display _display;
 
 		std::map<int, User *> _users;
-		std::map<std::string, Channel*>	_channels;
+		std::map<std::string, Channel> _channels;
 		int _fd;
 		std::string _bootTime;
 		std::time_t _lastPingTime;
 		std::vector<pollfd> _pfds;
 
-		void _acceptUser();			/** Userの追加 */
-		void _disconnectUser(); /** Userの削除 */
-		void _sendPing(); /*pingの送信*/
-		std::vector<User*> _getUsers(); /*User列の取得*/
+		void _acceptUser();							 /** Userの追加 */
+		void _disconnectUser();					 /** Userの削除 */
+		void _sendPing();								 /*pingの送信*/
+		std::vector<User *> _getUsers(); /*User列の取得*/
 
 	public:
 		Server();
@@ -42,9 +42,9 @@ namespace irc
 		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
-		std::vector<irc::User*> getUsers();
-		std::vector<irc::Channel*> getChannels();
-		std::string& _getBootTime();
+		std::vector<irc::User *> getUsers();
+		std::vector<irc::Channel *> getChannels();
+		std::string &_getBootTime();
 		size_t getVisibleCount();
 		size_t getInvisibleCount();
 		size_t getOperatorCount();
@@ -57,5 +57,9 @@ namespace irc
 
 		/*User操作*/
 		void delUser();
+
+		/** Channel操作 */
+		bool isExistChannel(std::string channelName);
+		irc::Channel &createOrFindChannel(std::string channelName);
 	};
 }

@@ -155,14 +155,20 @@ std::vector<irc::User *> irc::Server::getUsers()
 	}
 	return (users);
 }
+
+/**
+ * Getter _channelsを取得する
+ * std::map<チャンネル名, Obj> → std::vector<irc::Channel *> で出力される
+ */
 std::vector<irc::Channel *> irc::Server::getChannels()
 {
 	std::vector<irc::Channel *> channels;
 
-	for (std::map<std::string, irc::Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)
-		channels.push_back(it->second);
+	for (std::map<std::string, irc::Channel>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		channels.push_back(&(*it).second);
 	return (channels);
 }
+
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
 {
@@ -206,4 +212,22 @@ size_t irc::Server::getUnknownCount()
 }
 size_t irc::Server::getClientCount()
 {
+}
+
+/**
+ * -------- Channels func ---------
+ */
+bool irc::Server::isExistChannel(std::string channelName) { return _channels.count(channelName) > 0; }
+
+irc::Channel &irc::Server::createOrFindChannel(std::string channelName)
+{
+	bool exist = isExistChannel(channelName);
+	Channel &channel = _channels[channelName];
+
+	if (!exist)
+	{
+		channel.setName(channelName);
+	}
+
+	return channel;
 }
