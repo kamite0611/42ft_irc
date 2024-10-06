@@ -66,6 +66,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string& arg1, \
 		return (arg1 + " :Not enough parameters");
 	else if (code == 462)
 		return (":You may not reregister");
+	else if (code == 464)
+		return (":Password incorrect");
 	else if (code == 484)
 		return (":Your connection is restricted!");
 }
