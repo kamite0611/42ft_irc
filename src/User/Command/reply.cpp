@@ -5,10 +5,10 @@
 応答はこの形式で構成される
 */
 
-void irc::Command::reply(User& user, int code, const std::string& arg1, \
-											   const std::string& arg2, \
-											   const std::string& arg3, \
-											   const std::string& arg4)
+void irc::Command::reply(User &user, int code, const std::string &arg1,
+												 const std::string &arg2,
+												 const std::string &arg3,
+												 const std::string &arg4)
 {
 	std::stringstream sscode;
 	sscode << code;
@@ -25,10 +25,10 @@ void irc::Command::reply(User& user, int code, const std::string& arg1, \
 
 	user.sendTo(user, scode + " " + target + " " + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
 }
-std::string irc::Command::getReplyMessage(int code, const std::string& arg1, \
-													const std::string& arg2, \
-													const std::string& arg3, \
-													const std::string& arg4)
+std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
+																					const std::string &arg2,
+																					const std::string &arg3,
+																					const std::string &arg4)
 {
 	if (code == 1)
 		return (":Welcome to the Internet Relay Network " + arg1);
@@ -50,6 +50,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string& arg1, \
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
 	else if (code == 324)
 		return (arg1 + " " + arg2);
+	else if (code == 366)
+		return (arg1 + " :End of /NAMES list");
 	else if (code == 372)
 		return (":- " + arg1);
 	else if (code == 375)

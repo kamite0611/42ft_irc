@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   User.hpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 23:37:02 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/07 15:35:04 by kai11            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef USER_HPP
-#define USER_HPP
+#pragma once
 
 #include <iostream>
 #include <netinet/in.h>
@@ -43,7 +30,7 @@ namespace irc
     class User
     {
     private:
-        std::map<std::string, void (*)(Command*)> _commandFunctions;
+        std::map<std::string, void (*)(Command *)> _commandFunctions;
         int _fd;
         std::string _nickname;
         std::string _pastNickname;
@@ -55,9 +42,10 @@ namespace irc
         Server *_server;
         UserStatus _status;
         std::string _buffer;
-        std::vector<Command*> _command;
+        std::vector<Command *> _command;
         std::vector<std::string> _waitToSend;
         std::string _quitMessage;
+
     public:
         User(int fd, Server *server, struct sockaddr_in address);
         ~User();
@@ -82,15 +70,13 @@ namespace irc
         void setMode(bool isPlus, char mode);
 
         /**  */
-        void completeUserRegistration(Command* command);
+        void completeUserRegistration(Command *command);
         void dispatch(); /*Command識別*/
-        void receive(); /*UserへのPOLLINイベント、コマンド作成*/
+        void receive();  /*UserへのPOLLINイベント、コマンド作成*/
 
-		/*メッセージ送信*/
-        void write(const std::string& message);
-        void sendTo(irc::User& recipient, const std::string& message, const std::string& delimiter = "");
-		void push();
+        /*メッセージ送信*/
+        void write(const std::string &message);
+        void sendTo(irc::User &recipient, const std::string &message, const std::string &delimiter = "");
+        void push();
     };
 }
-
-#endif

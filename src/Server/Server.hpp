@@ -25,16 +25,16 @@ namespace irc
 		Display _display;
 
 		std::map<int, User *> _users;
-		std::map<std::string, Channel*>	_channels;
+		std::map<std::string, Channel> _channels;
 		int _fd;
 		std::string _bootTime;
 		std::time_t _lastPingTime;
 		std::vector<pollfd> _pfds;
 
-		void _acceptUser();			/** Userの追加 */
-		void _disconnectUser(); /** Userの削除 */
-		void _sendPing(); /*pingの送信*/
-		std::vector<User*> _getUsers(); /*User列の取得*/
+		void _acceptUser();							 /** Userの追加 */
+		void _disconnectUser();					 /** Userの削除 */
+		void _sendPing();								 /** pingの送信*/
+		std::vector<User *> _getUsers(); /** User列の取得*/
 
 	public:
 		Server();
@@ -57,9 +57,11 @@ namespace irc
 		void execute();
 
 		/*User操作*/
-		void delUser(irc::User& user);
+		void delUser(irc::User &user);
 
 		/*Channel操作*/
-		void delChannel(irc::Channel& channel);
+		bool isExistChannel(std::string channelName);
+		irc::Channel &createOrFindChannel(std::string channelName);
+		void delChannel(irc::Channel &channel);
 	};
 }

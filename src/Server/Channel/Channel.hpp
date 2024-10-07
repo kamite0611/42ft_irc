@@ -6,20 +6,21 @@
 
 namespace irc
 {
-	class	Channel
+	class Channel
 	{
 	private:
-		std::string					_name;
-		std::string					_topic;
-		std::map<int, irc::User*>	_users;
-		std::string					_mode;
-		std::map<int, std::string>	_useMode;
-		std::string					_password;
-		std::string					_maxUsers;
-		std::vector<irc::User*>		_invitedUser;
+		std::string _name;
+		std::string _topic;
+		std::map<int, irc::User *> _users;
+		std::string _mode;
+		std::map<int, std::string> _useMode;
+		std::string _password;
+		std::string _maxUsers;
+		std::vector<irc::User *> _invitedUser;
+
 	public:
 		Channel();
-		
+
 		/*getters*/
 		std::vector<irc::User*> getUsers();
 		irc::User& getUser(const std::string& userNickname);
@@ -30,10 +31,13 @@ namespace irc
 		void setMode(bool isPlus, char mode);
 		void setPassword(bool isPlus, const std::string& password);
 		void setMaxUsers(bool isPlus, const std::string& maxUsers);
+		void setName(std::string name);
 
-		bool isUser(User& user);
-		bool isUser(const std::string& userNickname);
+		/** User操作 */
+		bool isUser(User &user);
+    bool isUser(const std::string& userNickname);
 		bool isThereInvitedUser();
-		void delUser(User& user);
+		void addUser(User &user);
+		void delUser(User &user);
 	};
 }

@@ -29,9 +29,9 @@ FILES	= \
 
 DIRS = \
 	Server/ \
+	Server/Channel/ \
 	Server/Config/ \
 	Server/Display/ \
-	Server/Channel/ \
 	User/ \
 	User/Command/ \
 	User/Command/Connection \
@@ -68,13 +68,13 @@ fclean: clean
 re: fclean all
 
 debug: INCS += $(DEBUG_FLAG)
-debug: re
+debug: all
 	./$(NAME) 6667 pass
 
 run: all
 	./$(NAME) 6667 pass
 
 run_client:
-	irssi -c localhost -w pass
+	irssi -c localhost -w pass -p 6667 -n DebugUser
 
 .PHONY: all clean fclean re
