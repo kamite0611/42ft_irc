@@ -23,6 +23,8 @@ FILES	= \
 	User/Command/Connection/QUIT \
 	User/Command/Connection/JOIN \
 	User/Command/Connection/MODE \
+	User/Command/Connection/PING \
+	User/Command/Connection/PONG \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	Utils/Utils
