@@ -46,6 +46,7 @@ namespace irc
         std::vector<Command *> _command;
         std::vector<std::string> _waitToSend;
         std::string _quitMessage;
+        std::time_t _lastPingTime;
 
     public:
         User(int fd, Server *server, struct sockaddr_in address);
@@ -60,6 +61,8 @@ namespace irc
         std::string getPastNickname() const;
         int getFd() const;
         std::string getQuitMessage() const;
+		std::time_t getLastPingTime();
+
 
         /** Setters*/
         void setStatus(UserStatus status);
