@@ -47,6 +47,11 @@ INCS	= \
 	-I ./includes/ \
 	$(INC_DIRS)
 
+OSNAME := $(shell uname -s)
+ifeq ($(OSNAME), Darwin)
+	INCS += -DIS_MAC=true
+endif
+
 
 all: dirs $(NAME)
 
