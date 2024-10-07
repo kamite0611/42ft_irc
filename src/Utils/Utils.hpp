@@ -26,4 +26,5 @@ namespace irc
 	bool isAlpha(char c);
 	bool isSpecial(char c);
 	bool isNum(char c);
+	std::string toString(size_t nbr);
 }

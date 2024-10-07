@@ -32,7 +32,7 @@ void irc::Server::_acceptUser()
 
 	irc::put_pfds(_pfds);
 
-	if (IS_DEBUG)
+	if (DEBUG)
 		std::cout << "newUser[" << fd << "]: " << newUser << " accept success!!" << std::endl;
 }
 
