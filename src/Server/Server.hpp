@@ -42,9 +42,10 @@ namespace irc
 		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
-		std::vector<irc::User *> getUsers();
-		std::vector<irc::Channel *> getChannels();
-		std::string &_getBootTime();
+		std::vector<irc::User*> getUsers();
+		std::vector<irc::Channel*> getChannels();
+		irc::Channel& getChannel(const std::string& name);
+		std::string& _getBootTime();
 		size_t getVisibleCount();
 		size_t getInvisibleCount();
 		size_t getOperatorCount();

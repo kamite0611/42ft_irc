@@ -62,11 +62,12 @@ namespace irc
 
         /** Setters*/
         void setStatus(UserStatus status);
-        void setPastNickname(const std::string &pastNickname);
-        void setNickname(const std::string &nickname);
-        void setUsername(const std::string &username);
-        void setRealname(const std::string &realname);
-        void setQuitMessage(const std::string &quitMessage);
+        void setPastNickname(const std::string& pastNickname);
+        void setNickname(const std::string& nickname);
+        void setUsername(const std::string& username);
+        void setRealname(const std::string& realname);
+        void setQuitMessage(const std::string& quitMessage);
+        void setMode(bool isPlus, char mode);
 
         /**  */
         void completeUserRegistration(Command *command);
