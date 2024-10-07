@@ -93,9 +93,9 @@ void irc::Server::init()
 
 	// デフォルトで設定できるモードを指定しておくが、
 	// ここについては後々議論
-	_config.set("user_mode", "aiwro");
-	_config.set("channel_givemode", "Oov");
-	_config.set("channel_togglemode", "imnpt");
+	_config.set("user_mode", "io");
+	_config.set("channel_givemode", "o");
+	_config.set("channel_togglemode", "it");
 	_config.set("channel_addmode", "kl");
 }
 
@@ -182,13 +182,13 @@ void irc::Server::delUser(irc::User &user)
 		if ((*it).fd == user.getFd())
 		{
 			_pfds.erase(it);
-			break ;
+			break;
 		}
 	}
 	delete &user;
 }
 
-void irc::Server::delChannel(irc::Channel& channel)
+void irc::Server::delChannel(irc::Channel &channel)
 {
 	_channels.erase(channel.getName());
 }
@@ -214,6 +214,7 @@ std::vector<irc::Channel *> irc::Server::getChannels()
 		channels.push_back(it->second);
 	return (channels);
 }
+irc::Channel& irc::Server::getChannel(const std::string& name) { return (*_channels.at(name)); }
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
 {

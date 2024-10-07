@@ -16,6 +16,7 @@ void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
 void QUIT(irc::Command* command);
 void JOIN(irc::Command *command);
+void MODE(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
@@ -82,6 +83,17 @@ void irc::User::setNickname(const std::string &nickname) { _nickname = nickname;
 void irc::User::setUsername(const std::string &username) { _username = username; }
 void irc::User::setRealname(const std::string &realname) { _realname = realname; }
 void irc::User::setQuitMessage(const std::string& quitMessage) { _quitMessage = quitMessage; }
+void irc::User::setMode(bool isPlus, char mode)
+{
+    if (isPlus && _mode.find(mode) == std::string::npos)
+        _mode += mode;
+    else if (!isPlus && _mode.find(mode) != std::string::npos)
+        _mode.erase(_mode.find(mode));
+    if (DEBUG)
+    {
+        std::cout << _nickname << " now mode= " << _mode << std::endl;
+    }
+}
 
 
 void irc::User::completeUserRegistration(Command *command)

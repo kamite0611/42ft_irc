@@ -22,9 +22,17 @@ namespace irc
 		
 		/*getters*/
 		std::vector<irc::User*> getUsers();
+		irc::User& getUser(const std::string& userNickname);
 		std::string getName();
+		std::string getMode();
+
+		/*setters*/
+		void setMode(bool isPlus, char mode);
+		void setPassword(bool isPlus, const std::string& password);
+		void setMaxUsers(bool isPlus, const std::string& maxUsers);
 
 		bool isUser(User& user);
+		bool isUser(const std::string& userNickname);
 		bool isThereInvitedUser();
 		void delUser(User& user);
 	};

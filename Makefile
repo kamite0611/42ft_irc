@@ -22,6 +22,7 @@ FILES	= \
 	User/Command/Connection/USER \
 	User/Command/Connection/QUIT \
 	User/Command/Connection/JOIN \
+	User/Command/Connection/MODE \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	Utils/Utils

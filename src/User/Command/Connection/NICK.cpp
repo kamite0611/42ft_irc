@@ -4,8 +4,6 @@ void NICK(irc::Command* command)
 {
 	if (!command->getParameter()[0].length())
 		return (command->reply(command->getUser(), 431));
-	// if (command->getUser().getMode().find('r') != std::string::npos)
-	// 	return (command->reply(command->getUser(), 484));
 
 	/*nickname精査*/
 	std::string nickname;
