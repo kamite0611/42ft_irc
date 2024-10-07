@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kai11 <kai11@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kkodaira <kkodaira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 21:55:42 by akamite           #+#    #+#             */
-/*   Updated: 2024/10/02 21:09:04 by kai11            ###   ########.fr       */
+/*   Updated: 2024/10/07 19:28:22 by kkodaira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <csignal>
+#include <string>
 
 #define IS_MAC true
 #define IS_DEBUG true
