@@ -52,6 +52,7 @@ namespace irc
 		size_t getOperatorCount();
 		size_t getUnknownCount();
 		size_t getClientCount();
+		std::time_t getLastPingTime();
 
 		/** サーバー実行 */
 		void init();

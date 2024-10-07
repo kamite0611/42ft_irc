@@ -29,6 +29,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
         printError("getnameinfo", true);
     else
         _hostname = hostname;
+
+    _lastPingTime = std::time(0);
     _commandFunctions["CAP"] = CAP;
     _commandFunctions["PASS"] = PASS;
     _commandFunctions["NICK"] = NICK;
@@ -74,6 +76,7 @@ std::string irc::User::getQuitMessage() const
         return (_quitMessage);
     return ("Client Quit");
 }
+std::time_t irc::User::getLastPingTime() { return (_lastPingTime); }
 
 /*
 Setters

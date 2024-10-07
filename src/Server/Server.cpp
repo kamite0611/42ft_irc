@@ -46,7 +46,21 @@ void irc::Server::_disconnectUser()
 
 void irc::Server::_sendPing()
 {
-	/* TODO[kkodaira] add */
+	std::time_t currentTime = std::time(0);
+	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		std::cout << "currentTime=" << currentTime << std::endl;
+		if ((currentTime - it->second->getLastPingTime()) >= atoi(_config.get("timeout").c_str()))
+		{
+			it->second->setStatus(DELETE);
+			it->second->setQuitMessage("Ping timeout");
+		}
+		else
+		{
+			if (it->second->getStatus() == ONLINE)
+				it->second->write("PING " + _config.get("name"));
+		}
+	}
 }
 
 std::vector<irc::User *> irc::Server::_getUsers()
@@ -109,7 +123,7 @@ void irc::Server::execute()
 
 	if (std::time(0) - _lastPingTime >= ping)
 	{
-		// _sendPing();
+		_sendPing();
 		_lastPingTime = std::time(0);
 	}
 	else
@@ -176,7 +190,8 @@ void irc::Server::delUser(irc::User &user)
 	}
 
 	for (std::vector<irc::User *>::iterator it = receipients.begin(); it != receipients.end(); it++)
-		user.sendTo(*(*it), "Quit: " + (*it)->getQuitMessage());
+		user.write("Quit: " + (*it)->getQuitMessage());
+	user.push();
 	_users.erase(user.getFd());
 	for (std::vector<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
 	{
@@ -268,6 +283,9 @@ size_t irc::Server::getClientCount()
 {
 	return 0;
 }
+std::time_t irc::Server::getLastPingTime() { return (_lastPingTime); }
+
+
 
 /**
  * -------- Channels func ---------
