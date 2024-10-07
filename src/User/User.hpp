@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <string>
 #include <map>
+#include <algorithm>
 
 #include "Utils.hpp"
 #include "Command.hpp"
