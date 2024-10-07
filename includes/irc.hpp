@@ -15,7 +15,7 @@
 #include <string>
 
 #ifndef IS_MAC
-#define IS_MAC true
+#define IS_MAC false
 #endif
 
 extern bool stop;
