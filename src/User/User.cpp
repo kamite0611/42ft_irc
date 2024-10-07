@@ -35,6 +35,7 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["USER"] = USER;
     _commandFunctions["QUIT"] = QUIT;
     _commandFunctions["JOIN"] = JOIN;
+    _commandFunctions["MODE"] = MODE;
 }
 
 irc::User::~User()
