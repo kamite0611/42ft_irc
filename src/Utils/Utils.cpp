@@ -45,7 +45,7 @@ void irc::put_channels(std::vector<irc::Channel *> channels)
 {
 	int i = 0;
 	std::cout << "---------- channels ----------" << std::endl;
-	for (auto it = channels.begin(); it != channels.end(); ++it)
+	for (std::vector<irc::Channel*>::iterator it = channels.begin(); it != channels.end(); ++it)
 	{
 		std::cout << "channels[" << i << "]: { name: " << (*it)->getName() << " }" << std::endl;
 		i++;
@@ -82,4 +82,11 @@ bool irc::isSpecial(char c)
 bool irc::isNum(char c)
 {
 	return ('0' <= c && c <= '9');
+}
+
+std::string irc::toString(size_t nbr)
+{
+	std::ostringstream os;
+	os << nbr;
+	return (os.str());
 }

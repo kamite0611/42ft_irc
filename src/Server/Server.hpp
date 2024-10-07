@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <map>
+#include <algorithm>
 
 namespace irc
 {
