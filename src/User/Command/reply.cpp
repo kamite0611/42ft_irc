@@ -64,6 +64,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (arg1 + " :No such server");
 	else if (code == 403)
 		return (arg1 + " :No such channel");
+	else if (code == 409)
+		return (":No origin specified");
 	else if (code == 431)
 		return (":No nickname given");
 	else if (code == 432)

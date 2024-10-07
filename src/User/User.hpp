@@ -72,6 +72,7 @@ namespace irc
         void setRealname(const std::string& realname);
         void setQuitMessage(const std::string& quitMessage);
         void setMode(bool isPlus, char mode);
+        void setLastPingTime(std::time_t lastPingTime);
 
         /**  */
         void completeUserRegistration(Command *command);

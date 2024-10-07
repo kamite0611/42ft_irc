@@ -17,6 +17,8 @@ void MOTD(irc::Command *command);
 void QUIT(irc::Command* command);
 void JOIN(irc::Command *command);
 void MODE(irc::Command* command);
+void PING(irc::Command* command);
+void PONG(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
@@ -38,6 +40,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["QUIT"] = QUIT;
     _commandFunctions["JOIN"] = JOIN;
     _commandFunctions["MODE"] = MODE;
+    _commandFunctions["PING"] = PING;
+    _commandFunctions["PONG"] = PONG;
 }
 
 irc::User::~User()
@@ -98,6 +102,7 @@ void irc::User::setMode(bool isPlus, char mode)
         std::cout << _nickname << " now mode= " << _mode << std::endl;
     }
 }
+void irc::User::setLastPingTime(std::time_t lastPingTime) { _lastPingTime = lastPingTime; }
 
 
 void irc::User::completeUserRegistration(Command *command)
