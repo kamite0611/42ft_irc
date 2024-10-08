@@ -22,7 +22,7 @@ bool inLimit(std::string num)
 	return (true);
 }
 
-void setting(irc::Command* command, bool isPlus, std::string& settingMode, irc::Channel& channel)
+void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::Channel &channel)
 {
 	if (command->getUser().getMode().find('o') == std::string::npos)
 		return (command->reply(command->getUser(), 482, channel.getName()));
@@ -33,15 +33,15 @@ void setting(irc::Command* command, bool isPlus, std::string& settingMode, irc::
 			if (!command->getParameter()[2].size())
 			{
 				command->reply(command->getUser(), 461, command->getPrefix());
-				continue ;
+				continue;
 			}
 			else
 			{
 				std::string userNickname = command->getParameter()[2];
-				if (!channel.isUser(userNickname))
+				if (!channel.isUserNyName(userNickname))
 				{
 					command->reply(command->getUser(), 441, userNickname, channel.getName());
-					continue ;
+					continue;
 				}
 				irc::User settingUser = channel.getUser(userNickname);
 				settingUser.setMode(isPlus, settingMode[i]);
@@ -89,12 +89,12 @@ void setting(irc::Command* command, bool isPlus, std::string& settingMode, irc::
 	}
 }
 
-void MODE(irc::Command* command)
+void MODE(irc::Command *command)
 {
 	if (!command->getParameter()[0].size())
 		return (command->reply(command->getUser(), 461, command->getPrefix()));
 	if (command->getParameter()[0][0] != '#')
-		return ;
+		return;
 
 	if (command->getParameter()[1].size())
 	{
@@ -129,12 +129,12 @@ void MODE(irc::Command* command)
 				}
 			}
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			command->reply(command->getUser(), 403, channelName);
 			if (DEBUG)
 				std::cout << channelName << " is not exist." << std::endl;
-			return ;
+			return;
 		}
 	}
 	else
@@ -145,12 +145,12 @@ void MODE(irc::Command* command)
 			irc::Channel displayChannel = command->getServer().getChannel(channelName);
 			command->reply(command->getUser(), 324, channelName, displayChannel.getMode());
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			command->reply(command->getUser(), 403, channelName);
 			if (DEBUG)
 				std::cout << channelName << " is not exist." << std::endl;
-			return ;
+			return;
 		}
 	}
 }

@@ -5,7 +5,7 @@
 応答はこの形式で構成される
 */
 
-void irc::Command::reply(User &user, int code, const std::string &arg1,
+void irc::Command::reply(User &user, unsigned short code, const std::string &arg1,
 												 const std::string &arg2,
 												 const std::string &arg3,
 												 const std::string &arg4)
@@ -25,7 +25,7 @@ void irc::Command::reply(User &user, int code, const std::string &arg1,
 
 	user.sendTo(user, scode + " " + target + " " + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
 }
-std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
+std::string irc::Command::getReplyMessage(unsigned short code, const std::string &arg1,
 																					const std::string &arg2,
 																					const std::string &arg3,
 																					const std::string &arg4)
@@ -50,6 +50,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
 	else if (code == 324)
 		return (arg1 + " " + arg2);
+	else if (code == 353)
+		return (arg1 + " " + arg2 + " :" + arg3);
 	else if (code == 366)
 		return (arg1 + " :End of /NAMES list");
 	else if (code == 372)
@@ -82,6 +84,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (":Password incorrect");
 	else if (code == 472)
 		return (arg1 + " :is unknown mode char to me for " + arg2);
+	else if (code == 476)
+		return (arg1 + " :Bad Channel Mask");
 	else if (code == 481)
 		return (":Permission Denied- You're not an IRC operator");
 	else if (code == 482)
@@ -90,4 +94,6 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (":Your connection is restricted!");
 	else if (code == 503)
 		return (":" + arg1);
+	else
+		return "";
 }
