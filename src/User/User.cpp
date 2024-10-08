@@ -19,6 +19,7 @@ void JOIN(irc::Command *command);
 void MODE(irc::Command* command);
 void PING(irc::Command* command);
 void PONG(irc::Command* command);
+void TOPIC(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
                                                                       _server(server),
@@ -42,6 +43,7 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
     _commandFunctions["MODE"] = MODE;
     _commandFunctions["PING"] = PING;
     _commandFunctions["PONG"] = PONG;
+    _commandFunctions["TOPIC"] = TOPIC;
 }
 
 irc::User::~User()

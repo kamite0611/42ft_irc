@@ -27,6 +27,7 @@ FILES	= \
 	User/Command/Connection/PONG \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
+	User/Command/Channel/TOPIC \
 	Utils/Utils
 
 DIRS = \
@@ -38,6 +39,7 @@ DIRS = \
 	User/Command/ \
 	User/Command/Connection \
 	User/Command/Server \
+	User/Command/Channel \
 	Utils/
 
 INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))

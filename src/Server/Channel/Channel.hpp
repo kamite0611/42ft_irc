@@ -26,18 +26,23 @@ namespace irc
 		irc::User& getUser(const std::string& userNickname);
 		std::string getName();
 		std::string getMode();
+		std::string getTopic();
 
 		/*setters*/
 		void setMode(bool isPlus, char mode);
 		void setPassword(bool isPlus, const std::string& password);
 		void setMaxUsers(bool isPlus, const std::string& maxUsers);
 		void setName(std::string name);
+		void setTopic(std::string topic);
 
 		/** User操作 */
 		bool isUser(User &user);
-    bool isUser(const std::string& userNickname);
+    	bool isUser(const std::string& userNickname);
 		bool isThereInvitedUser();
+
 		void addUser(User &user);
 		void delUser(User &user);
+
+		void write(std::string message);
 	};
 }
