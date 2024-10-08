@@ -23,6 +23,7 @@ irc::User& irc::Channel::getUser(const std::string& userNickname)
 }
 std::string irc::Channel::getName() { return (_name); }
 std::string irc::Channel::getMode() { return (_mode); }
+std::string irc::Channel::getTopic() { return (_topic); }
 
 /*
 setters
@@ -50,6 +51,7 @@ void irc::Channel::setMaxUsers(bool isPlus, const std::string& maxUsers)
 	else
 		_maxUsers = "";
 }
+void irc::Channel::setTopic(std::string topic) { _topic = topic; }
 
 
 
@@ -74,7 +76,6 @@ bool irc::Channel::isUser(const std::string& userNickname)
 	}
 	return (false);
 }
-
 /** User 削除 */
 void irc::Channel::delUser(User &user) { _users.erase(user.getFd()); }
 
@@ -85,4 +86,11 @@ void irc::Channel::addUser(User &user) { _users[user.getFd()] = &user; }
 bool irc::Channel::isThereInvitedUser()
 {
 	return (_invitedUser.size());
+}
+
+
+void irc::Channel::write(std::string message)
+{
+	for (std::map<int, irc::User *>::iterator it = _users.begin(); it != _users.end(); it++)
+		it->second->write(message);
 }
