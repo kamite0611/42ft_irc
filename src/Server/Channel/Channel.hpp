@@ -28,6 +28,8 @@ namespace irc
 		std::string getName();
 		std::string getMode();
 		std::string getTopic();
+		std::string getMaxUsers();
+		std::string getPassword();
 
 		/*setters*/
 		void setMode(bool isPlus, char mode);
@@ -47,6 +49,7 @@ namespace irc
 		void invitedUser(irc::User &user);
 		void removeUserInvite(irc::User &user);
 		bool isThereInvitedUser();
+		bool isAdminUser(irc::User &user);
 
 		void write(std::string message);
 

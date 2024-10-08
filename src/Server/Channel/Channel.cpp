@@ -26,6 +26,8 @@ irc::User &irc::Channel::getUser(const std::string &userNickname)
 std::string irc::Channel::getName() { return (_name); }
 std::string irc::Channel::getMode() { return (_mode); }
 std::string irc::Channel::getTopic() { return (_topic); }
+std::string irc::Channel::getMaxUsers() { return (_maxUsers); }
+std::string irc::Channel::getPassword() { return (_password); }
 
 /**
  * ------------ setters ------------
@@ -93,6 +95,13 @@ void irc::Channel::addUser(User &user, bool isAdmin)
 	_users[user.getFd()] = &user;
 	if (isAdmin)
 		_adminUserFds.push_back(user.getFd());
+}
+
+/** Userが管理者かどうか */
+bool irc::Channel::isAdminUser(irc::User &user)
+{
+	std::vector<int>::iterator it = std::find(_adminUserFds.begin(), _adminUserFds.end(), user.getFd());
+	return it != _adminUserFds.end();
 }
 
 /**

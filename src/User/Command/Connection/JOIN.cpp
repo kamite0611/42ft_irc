@@ -18,9 +18,26 @@ bool isValidJoin(irc::Command *command)
     return command->reply(user, 461, "JOIN"), false;
 
   std::string channelName = params[0];
+  std::string password = params.size() > 2 ? params[1] : std::string();
 
   if (channelName[0] != '#')
     return false;
+
+  irc::Channel *channel = server.findChannel(channelName);
+  if (!channel)
+    return true; // 既存チャンネルがない場合OK
+
+  /** パスワード */
+  if (channel->getMode().find('k') != std::string::npos && channel->getPassword() == password)
+    return command->reply(user, 475, channelName), false;
+
+  /** ユーザー人数制限 */
+  if (channel->getMode().find('l') != std::string::npos && channel->getUsers().size() >= (size_t)atoi(channel->getMaxUsers().c_str()))
+    return command->reply(user, 471, channelName), false;
+
+  /** 招待制 */
+  if (channel->getMode().find('i') != std::string::npos && !channel->isInvitedUser(user) && command->getUser().getMode().find('o') == std::string::npos)
+    return command->reply(user, 473, channelName), false;
 
   return true;
 }
@@ -30,7 +47,6 @@ bool isValidJoin(irc::Command *command)
  */
 void JOIN(irc::Command *command)
 {
-
   std::vector<std::string> params = command->getParameter();
 
   if (!isValidJoin(command))
@@ -42,24 +58,22 @@ void JOIN(irc::Command *command)
   irc::Channel &channel = server.createOrFindChannel(channelName);
 
   if (channel.getUsers().size() == 0)
-  {
-    /** ユーザー追加 ⚪︎管理者 */
     channel.addUser(user, true);
-  }
   else
   {
-    /** TODO[kmt] すでにユーザーが入っている場合の処理 */
+    /** すでにユーザーが入っている場合の処理 */
     channel.removeUserInvite(user);
-
-    /** ユーザー追加 ×管理者 */
     channel.addUser(user, false);
   }
 
-  irc::put_channels(server.getChannels());
-
   if (DEBUG)
+  {
+    irc::put_channels(server.getChannels());
     std::cout << "JOIN: " << user.getNickname() << " is joined to " << channel.getName() << std::endl;
+  }
   channel.broadcast(user, "JOIN :" + channel.getName());
+
+  /** TODO [kamite] レスポンスメッセージ調整 */
   command->reply(user, 353, "*", channelName, "@DebugUser");
   command->reply(user, 366, channelName);
 }

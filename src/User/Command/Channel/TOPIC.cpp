@@ -1,12 +1,12 @@
 #include "irc.hpp"
 
-void TOPIC(irc::Command* command)
+void TOPIC(irc::Command *command)
 {
 	if (!command->getParameter()[0].length())
 		return (command->reply(command->getUser(), 461, "TOPIC"));
 	std::string channelName = command->getParameter()[0];
 	irc::Channel channel;
-	if (!command->getServer().isExistChannel(channelName))
+	if (!command->getServer().findChannel(channelName))
 		return (command->reply(command->getUser(), 403, channelName));
 	else
 		channel = command->getServer().getChannel(channelName);
