@@ -3,15 +3,26 @@
 
 /**
  * チャンネルへの参加可否をチェック
- * - チャンネル名が有効かどうか
- * - チャンネルの存在チェックおよび作成
  * - 既存チャンネルのモードによる条件チェック
  *  1. チャンネルパスワード (k モード)
  *  2. ユーザー制限 (l モード)
  *  3. 招待制 (i モード)
  */
-void isValidJoin(irc::Command *command)
+bool isValidJoin(irc::Command *command)
 {
+  std::vector<std::string> params = command->getParameter();
+  irc::Server &server = command->getServer();
+  irc::User &user = command->getUser();
+
+  if (params.size() == 0)
+    return command->reply(user, 461, "JOIN"), false;
+
+  std::string channelName = params[0];
+
+  if (channelName[0] != '#')
+    return false;
+
+  return true;
 }
 
 /**
@@ -19,36 +30,36 @@ void isValidJoin(irc::Command *command)
  */
 void JOIN(irc::Command *command)
 {
+
   std::vector<std::string> params = command->getParameter();
 
-  if (params.size() != 1)
+  if (!isValidJoin(command))
     return;
 
   std::string channelName = params[0];
-  if (channelName[0] != '#')
-    return; /** TODO error */
-
   irc::Server &server = command->getServer();
   irc::User &user = command->getUser();
   irc::Channel &channel = server.createOrFindChannel(channelName);
 
   if (channel.getUsers().size() == 0)
   {
-    channel.addUser(user);
-    /** TODO[kmt] setUserMode */
+    /** ユーザー追加 ⚪︎管理者 */
+    channel.addUser(user, true);
   }
   else
   {
     /** TODO[kmt] すでにユーザーが入っている場合の処理 */
+    channel.removeUserInvite(user);
+
+    /** ユーザー追加 ×管理者 */
+    channel.addUser(user, false);
   }
 
   irc::put_channels(server.getChannels());
 
-  std::cout << "params[0]: " << params[0] << std::endl;
-  std::cout << "Hello join!" << std::endl;
-  std::cout << "parameters: " << command->getParameter().size() << std::endl;
-
-  /** TODO 全てのユーザーにチャンネルに入ったことを通知 */
-
+  if (DEBUG)
+    std::cout << "JOIN: " << user.getNickname() << " is joined to " << channel.getName() << std::endl;
+  channel.broadcast(user, "JOIN :" + channel.getName());
+  command->reply(user, 353, "*", channelName, "@DebugUser");
   command->reply(user, 366, channelName);
 }
