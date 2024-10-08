@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <string>
 #include <map>
+#include <algorithm>
 
 #include "Utils.hpp"
 #include "Command.hpp"
@@ -45,6 +46,7 @@ namespace irc
         std::vector<Command *> _command;
         std::vector<std::string> _waitToSend;
         std::string _quitMessage;
+        std::time_t _lastPingTime;
 
     public:
         User(int fd, Server *server, struct sockaddr_in address);
@@ -59,14 +61,18 @@ namespace irc
         std::string getPastNickname() const;
         int getFd() const;
         std::string getQuitMessage() const;
+		std::time_t getLastPingTime();
+
 
         /** Setters*/
         void setStatus(UserStatus status);
-        void setPastNickname(const std::string &pastNickname);
-        void setNickname(const std::string &nickname);
-        void setUsername(const std::string &username);
-        void setRealname(const std::string &realname);
-        void setQuitMessage(const std::string &quitMessage);
+        void setPastNickname(const std::string& pastNickname);
+        void setNickname(const std::string& nickname);
+        void setUsername(const std::string& username);
+        void setRealname(const std::string& realname);
+        void setQuitMessage(const std::string& quitMessage);
+        void setMode(bool isPlus, char mode);
+        void setLastPingTime(std::time_t lastPingTime);
 
         /**  */
         void completeUserRegistration(Command *command);

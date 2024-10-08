@@ -22,8 +22,12 @@ FILES	= \
 	User/Command/Connection/USER \
 	User/Command/Connection/QUIT \
 	User/Command/Connection/JOIN \
+	User/Command/Connection/MODE \
+	User/Command/Connection/PING \
+	User/Command/Connection/PONG \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
+	User/Command/Channel/TOPIC \
 	Utils/Utils
 
 DIRS = \
@@ -35,6 +39,7 @@ DIRS = \
 	User/Command/ \
 	User/Command/Connection \
 	User/Command/Server \
+	User/Command/Channel \
 	Utils/
 
 INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))
@@ -45,6 +50,11 @@ OBJS	= $(addprefix $(OBJ_DIR), $(FILES:=.o))
 INCS	= \
 	-I ./includes/ \
 	$(INC_DIRS)
+
+OSNAME := $(shell uname -s)
+ifeq ($(OSNAME), Darwin)
+	INCS += -DIS_MAC=true
+endif
 
 
 all: dirs $(NAME)

@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <map>
+#include <algorithm>
 
 namespace irc
 {
@@ -42,14 +43,16 @@ namespace irc
 		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
-		std::vector<irc::User *> getUsers();
-		std::vector<irc::Channel *> getChannels();
-		std::string &_getBootTime();
+		std::vector<irc::User*> getUsers();
+		std::vector<irc::Channel*> getChannels();
+		irc::Channel& getChannel(const std::string& name);
+		std::string& _getBootTime();
 		size_t getVisibleCount();
 		size_t getInvisibleCount();
 		size_t getOperatorCount();
 		size_t getUnknownCount();
 		size_t getClientCount();
+		std::time_t getLastPingTime();
 
 		/** サーバー実行 */
 		void init();

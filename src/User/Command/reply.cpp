@@ -48,6 +48,8 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (arg1 + " :channels formed");
 	else if (code == 255)
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
+	else if (code == 324)
+		return (arg1 + " " + arg2);
 	else if (code == 366)
 		return (arg1 + " :End of /NAMES list");
 	else if (code == 372)
@@ -58,22 +60,34 @@ std::string irc::Command::getReplyMessage(int code, const std::string &arg1,
 		return (":End of MOTD command");
 	else if (code == 401)
 		return (":No such nick/channel");
+	else if (code == 402)
+		return (arg1 + " :No such server");
+	else if (code == 403)
+		return (arg1 + " :No such channel");
+	else if (code == 409)
+		return (":No origin specified");
 	else if (code == 431)
 		return (":No nickname given");
 	else if (code == 432)
 		return (arg1 + " :Erroneus nickname");
 	else if (code == 433)
 		return (arg1 + " :Nickname is already in use");
+	else if (code == 441)
+		return (arg1 + " " + arg2 + " :They aren't on that channel");
 	else if (code == 461)
 		return (arg1 + " :Not enough parameters");
 	else if (code == 462)
 		return (":You may not reregister");
 	else if (code == 464)
 		return (":Password incorrect");
-	else if (code == 402)
-		return (arg1 + " :No such server");
+	else if (code == 472)
+		return (arg1 + " :is unknown mode char to me for " + arg2);
 	else if (code == 481)
 		return (":Permission Denied- You're not an IRC operator");
+	else if (code == 482)
+		return (arg1 + " :You're not channel operator");
 	else if (code == 484)
 		return (":Your connection is restricted!");
+	else if (code == 503)
+		return (":" + arg1);
 }

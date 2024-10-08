@@ -32,7 +32,7 @@ void irc::Server::_acceptUser()
 
 	irc::put_pfds(_pfds);
 
-	if (IS_DEBUG)
+	if (DEBUG)
 		std::cout << "newUser[" << fd << "]: " << newUser << " accept success!!" << std::endl;
 }
 
@@ -46,7 +46,21 @@ void irc::Server::_disconnectUser()
 
 void irc::Server::_sendPing()
 {
-	/* TODO[kkodaira] add */
+	std::time_t currentTime = std::time(0);
+	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		std::cout << "currentTime=" << currentTime << std::endl;
+		if ((currentTime - it->second->getLastPingTime()) >= atoi(_config.get("timeout").c_str()))
+		{
+			it->second->setStatus(DELETE);
+			it->second->setQuitMessage("Ping timeout");
+		}
+		else
+		{
+			if (it->second->getStatus() == ONLINE)
+				it->second->write("PING " + _config.get("name"));
+		}
+	}
 }
 
 std::vector<irc::User *> irc::Server::_getUsers()
@@ -94,9 +108,9 @@ void irc::Server::init()
 
 	// デフォルトで設定できるモードを指定しておくが、
 	// ここについては後々議論
-	_config.set("user_mode", "aiwro");
-	_config.set("channel_givemode", "Oov");
-	_config.set("channel_togglemode", "imnpt");
+	_config.set("user_mode", "io");
+	_config.set("channel_givemode", "o");
+	_config.set("channel_togglemode", "it");
 	_config.set("channel_addmode", "kl");
 }
 
@@ -109,7 +123,7 @@ void irc::Server::execute()
 
 	if (std::time(0) - _lastPingTime >= ping)
 	{
-		// _sendPing();
+		_sendPing();
 		_lastPingTime = std::time(0);
 	}
 	else
@@ -176,7 +190,8 @@ void irc::Server::delUser(irc::User &user)
 	}
 
 	for (std::vector<irc::User *>::iterator it = receipients.begin(); it != receipients.end(); it++)
-		user.sendTo(*(*it), "Quit: " + (*it)->getQuitMessage());
+		user.write("Quit: " + (*it)->getQuitMessage());
+	user.push();
 	_users.erase(user.getFd());
 	for (std::vector<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
 	{
@@ -220,6 +235,8 @@ std::vector<irc::Channel *> irc::Server::getChannels()
 		channels.push_back(&(*it).second);
 	return (channels);
 }
+irc::Channel& irc::Server::getChannel(const std::string& name) { return (_channels.at(name)); }
+
 
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
@@ -266,6 +283,9 @@ size_t irc::Server::getClientCount()
 {
 	return 0;
 }
+std::time_t irc::Server::getLastPingTime() { return (_lastPingTime); }
+
+
 
 /**
  * -------- Channels func ---------
