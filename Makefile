@@ -22,13 +22,14 @@ FILES	= \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
 	User/Command/Connection/QUIT \
-	User/Command/Connection/JOIN \
 	User/Command/Connection/MODE \
 	User/Command/Connection/PING \
 	User/Command/Connection/PONG \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	User/Command/Channel/TOPIC \
+	User/Command/Channel/JOIN \
+	User/Command/Channel/PRIVMSG \
 	Utils/Utils
 
 DIRS = \
