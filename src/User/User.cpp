@@ -16,6 +16,7 @@ void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
 void QUIT(irc::Command *command);
 void JOIN(irc::Command *command);
+void KICK(irc::Command *command);
 void PRIVMSG(irc::Command *command);
 void MODE(irc::Command *command);
 void PING(irc::Command *command);
@@ -41,6 +42,7 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 	_commandFunctions["USER"] = USER;
 	_commandFunctions["QUIT"] = QUIT;
 	_commandFunctions["JOIN"] = JOIN;
+	_commandFunctions["KICK"] = KICK;
 	_commandFunctions["PRIVMSG"] = PRIVMSG;
 	_commandFunctions["MODE"] = MODE;
 	_commandFunctions["PING"] = PING;
@@ -126,12 +128,13 @@ void irc::User::dispatch()
 	if (lastStatus == DELETE)
 		return;
 
-	// if (DEBUG)
-	// {
-	//     std::cout << "now commands\n";
-	//     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
-	//         std::cout << (*it)->getPrefix() << std::endl;
-	// }
+	if (DEBUG)
+	{
+		std::cout << "commands: ";
+		for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+			std::cout << (*it)->getPrefix() << " ";
+		std::cout << std::endl;
+	}
 	std::vector<Command *> used;
 	for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
 	{

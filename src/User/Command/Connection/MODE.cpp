@@ -38,7 +38,7 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 			else
 			{
 				std::string userNickname = command->getParameter()[2];
-				if (!channel.isUserNyName(userNickname))
+				if (!channel.isUserByName(userNickname))
 				{
 					command->reply(command->getUser(), 441, userNickname, channel.getName());
 					continue;

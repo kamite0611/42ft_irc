@@ -29,6 +29,7 @@ FILES	= \
 	User/Command/Server/MOTD \
 	User/Command/Channel/TOPIC \
 	User/Command/Channel/JOIN \
+	User/Command/Channel/KICK \
 	User/Command/Channel/PRIVMSG \
 	Utils/Utils
 
