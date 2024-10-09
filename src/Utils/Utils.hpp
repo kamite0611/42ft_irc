@@ -12,6 +12,10 @@
 #define DEBUG 0
 #endif
 
+#ifndef CMD_DEBUG
+#define CMD_DEBUG 0
+#endif
+
 namespace irc
 {
 	class Channel;

@@ -3,6 +3,7 @@ CC		= c++
 FLAGS	= -std=c++98 #-Wall -Wextra -Werror
 
 DEBUG_FLAG = -DDEBUG=1
+CMD_DEBUG_FLAG = -DCMD_DEBUG=1
 
 OBJ_DIR	= objs/
 SRC_DIR = src/
@@ -76,14 +77,16 @@ fclean: clean
 
 re: fclean all
 
-debug: INCS += $(DEBUG_FLAG)
-debug: all
-	./$(NAME) 6667 pass
-
 run: all
 	./$(NAME) 6667 pass
 
 run_client:
 	irssi -c localhost -w pass -p 6667 -n DebugUser
 
-.PHONY: all clean fclean re
+debug: INCS += $(DEBUG_FLAG)
+debug: run
+
+cmd_debug: INCS += $(CMD_DEBUG_FLAG)
+cmd_debug: run
+
+.PHONY: all clean fclean re run run_client debug cmd_debug
