@@ -100,7 +100,7 @@ void MODE(irc::Command *command)
 	{
 		std::string channelName = command->getParameter()[0];
 		std::string settingMode = command->getParameter()[1];
-		if (command->getServer().isExistChannel(channelName))
+		if (command->getServer().findChannel(channelName))
 		{
 			if (DEBUG)
 				std::cout << "settingMode=" << settingMode << std::endl;
@@ -142,7 +142,7 @@ void MODE(irc::Command *command)
 	else
 	{
 		std::string channelName = command->getParameter()[0];
-		if (command->getServer().isExistChannel(channelName))
+		if (command->getServer().findChannel(channelName))
 		{
 			irc::Channel displayChannel = command->getServer().getChannel(channelName);
 			command->reply(command->getUser(), 324, channelName, displayChannel.getMode());
