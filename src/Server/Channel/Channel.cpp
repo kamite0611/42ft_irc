@@ -70,7 +70,7 @@ bool irc::Channel::isUser(irc::User &user)
 }
 
 /** User 名前で存在チェック */
-bool irc::Channel::isUserNyName(const std::string &userNickname)
+bool irc::Channel::isUserByName(const std::string &userNickname)
 {
 	for (std::map<int, irc::User *>::iterator it = _users.begin(); it != _users.end(); it++)
 	{
@@ -87,6 +87,18 @@ void irc::Channel::delUser(User &user)
 	std::vector<int>::iterator it = std::find(_adminUserFds.begin(), _adminUserFds.end(), user.getFd());
 	if (it != _adminUserFds.end())
 		_adminUserFds.erase(it);
+}
+
+/** User 検索 */
+irc::User *irc::Channel::findUserByNickname(std::string name)
+{
+	std::vector<irc::User *> users = getUsers();
+	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
+	{
+		if ((*it)->getNickname() == name)
+			return *it;
+	}
+	return NULL;
 }
 
 /** User 追加 */
