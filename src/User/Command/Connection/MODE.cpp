@@ -100,8 +100,10 @@ void MODE(irc::Command* command)
 	{
 		std::string channelName = command->getParameter()[0];
 		std::string settingMode = command->getParameter()[1];
-		try
+		if (command->getServer().isExistChannel(channelName))
 		{
+			if (DEBUG)
+				std::cout << "settingMode=" << settingMode << std::endl;
 			irc::Channel settingChannel = command->getServer().getChannel(channelName);
 			size_t i = 0;
 			while (settingMode[i])
@@ -129,7 +131,7 @@ void MODE(irc::Command* command)
 				}
 			}
 		}
-		catch(const std::exception& e)
+		else
 		{
 			command->reply(command->getUser(), 403, channelName);
 			if (DEBUG)
@@ -140,12 +142,12 @@ void MODE(irc::Command* command)
 	else
 	{
 		std::string channelName = command->getParameter()[0];
-		try
+		if (command->getServer().isExistChannel(channelName))
 		{
 			irc::Channel displayChannel = command->getServer().getChannel(channelName);
 			command->reply(command->getUser(), 324, channelName, displayChannel.getMode());
 		}
-		catch(const std::exception& e)
+		else
 		{
 			command->reply(command->getUser(), 403, channelName);
 			if (DEBUG)

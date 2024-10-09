@@ -197,6 +197,8 @@ void irc::User::receive()
             return;
         }
         buffer[recv_bytes] = 0;
+        if (CMD_DEBUG)
+            std::cout << "receive buffer=" << buffer << std::endl;
         _buffer += buffer;
     }
 
