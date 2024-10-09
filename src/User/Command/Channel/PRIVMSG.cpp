@@ -1,7 +1,7 @@
 #include "irc.hpp"
 
 /**
- *
+ * チャンネル内全員に向けメッセージを送信する
  */
 void PRIVMSG(irc::Command *command)
 {
