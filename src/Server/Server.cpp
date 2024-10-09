@@ -47,7 +47,7 @@ void irc::Server::_disconnectUser()
 void irc::Server::_sendPing()
 {
 	std::time_t currentTime = std::time(0);
-	for (std::map<int, User*>::iterator it = _users.begin(); it != _users.end(); it++)
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
 	{
 		std::cout << "currentTime=" << currentTime << std::endl;
 		if ((currentTime - it->second->getLastPingTime()) >= atoi(_config.get("timeout").c_str()))
@@ -235,8 +235,7 @@ std::vector<irc::Channel *> irc::Server::getChannels()
 		channels.push_back(&(*it).second);
 	return (channels);
 }
-irc::Channel& irc::Server::getChannel(const std::string& name) { return (_channels.at(name)); }
-
+irc::Channel &irc::Server::getChannel(const std::string &name) { return (_channels.at(name)); }
 
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
@@ -285,16 +284,23 @@ size_t irc::Server::getClientCount()
 }
 std::time_t irc::Server::getLastPingTime() { return (_lastPingTime); }
 
-
-
 /**
  * -------- Channels func ---------
  */
-bool irc::Server::isExistChannel(std::string channelName) { return _channels.count(channelName) > 0; }
+/** チャンネルを名前から取得 */
+irc::Channel *irc::Server::findChannel(std::string channelName)
+{
+	std::map<std::string, Channel>::iterator it = _channels.find(channelName);
 
+	if (it != _channels.end())
+		return &(it->second);
+	return NULL;
+}
+
+/** チャンネルがある場合は取得、ない場合は作成 */
 irc::Channel &irc::Server::createOrFindChannel(std::string channelName)
 {
-	bool exist = isExistChannel(channelName);
+	bool exist = !!findChannel(channelName);
 
 	std::cout << "exist: " << exist << std::endl;
 	Channel &channel = _channels[channelName];

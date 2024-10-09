@@ -43,10 +43,10 @@ namespace irc
 		/** Getters */
 		irc::Config &getConfig();
 		irc::Display &getDisplay();
-		std::vector<irc::User*> getUsers();
-		std::vector<irc::Channel*> getChannels();
-		irc::Channel& getChannel(const std::string& name);
-		std::string& _getBootTime();
+		std::vector<irc::User *> getUsers();
+		std::vector<irc::Channel *> getChannels();
+		irc::Channel &getChannel(const std::string &name);
+		std::string &_getBootTime();
 		size_t getVisibleCount();
 		size_t getInvisibleCount();
 		size_t getOperatorCount();
@@ -62,7 +62,7 @@ namespace irc
 		void delUser(irc::User &user);
 
 		/*Channel操作*/
-		bool isExistChannel(std::string channelName);
+		irc::Channel *findChannel(std::string channelName);
 		irc::Channel &createOrFindChannel(std::string channelName);
 		void delChannel(irc::Channel &channel);
 	};

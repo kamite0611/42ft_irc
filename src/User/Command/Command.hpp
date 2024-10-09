@@ -25,7 +25,7 @@ namespace irc
 		/*getters*/
 		std::vector<std::string> &getParameter();
 		irc::User &getUser();
-		std::string getReplyMessage(int code, const std::string &arg1,
+		std::string getReplyMessage(unsigned short code, const std::string &arg1,
 																const std::string &arg2,
 																const std::string &arg3,
 																const std::string &arg4);
@@ -34,7 +34,7 @@ namespace irc
 		std::string &getTrailer();
 
 		/*optional*/
-		void reply(User &user, int code, const std::string &arg1 = "",
+		void reply(User &user, unsigned short code, const std::string &arg1 = "",
 							 const std::string &arg2 = "",
 							 const std::string &arg3 = "",
 							 const std::string &arg4 = "");
