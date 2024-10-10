@@ -34,6 +34,7 @@ std::string irc::Channel::getPassword() { return (_password); }
  */
 void irc::Channel::setMode(bool isPlus, char mode)
 {
+	std::cout << "**************\n";
 	if (isPlus && _mode.find(mode) == std::string::npos)
 		_mode += mode;
 	else if (!isPlus && _mode.find(mode) != std::string::npos)
