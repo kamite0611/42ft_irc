@@ -235,7 +235,7 @@ std::vector<irc::Channel *> irc::Server::getChannels()
 		channels.push_back(&(*it).second);
 	return (channels);
 }
-irc::Channel &irc::Server::getChannel(const std::string &name) { return (_channels.at(name)); }
+irc::Channel &irc::Server::getChannel(const std::string &name) { return (_channels[name]); }
 
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()

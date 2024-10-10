@@ -2,32 +2,29 @@
 
 void TOPIC(irc::Command *command)
 {
-	if (!command->getParameter()[0].length())
+	if (command->getParameter().size() <= 1)
 		return (command->reply(command->getUser(), 461, "TOPIC"));
 	std::string channelName = command->getParameter()[0];
-	irc::Channel channel;
 	if (!command->getServer().findChannel(channelName))
 		return (command->reply(command->getUser(), 403, channelName));
-	else
-		channel = command->getServer().getChannel(channelName);
 
 	if (!command->getTrailer().length())
 	{
-		if (!channel.getTopic().length())
+		if (!command->getServer().getChannel(channelName).getTopic().length())
 			return (command->reply(command->getUser(), 331, channelName));
 		else
-			return (command->reply(command->getUser(), 332, channel.getTopic()));
+			return (command->reply(command->getUser(), 332, command->getServer().getChannel(channelName).getTopic()));
 	}
 	else
 	{
 		std::string topic = command->getTrailer();
 		if (topic.length() > 300)
 			return (command->reply(command->getUser(), 501, "Topic is too long"));
-		if (!channel.isUser(command->getUser()))
+		if (!command->getServer().getChannel(channelName).isUser(command->getUser()))
 			return (command->reply(command->getUser(), 442, channelName));
-		if (channel.getMode().find('t') != std::string::npos && command->getUser().getMode().find('o') == std::string::npos)
+		if (command->getServer().getChannel(channelName).getMode().find('t') != std::string::npos && command->getUser().getMode().find('o') == std::string::npos)
 			return (command->reply(command->getUser(), 482, channelName));
-		channel.setTopic(topic);
-		channel.write("TOPIC " + channelName + " :" + channel.getTopic());
+		command->getServer().getChannel(channelName).setTopic(topic);
+		command->getServer().getChannel(channelName).write("TOPIC " + channelName + " :" + command->getServer().getChannel(channelName).getTopic());
 	}
 }
