@@ -55,10 +55,9 @@ void irc::Server::_sendPing()
 			it->second->setStatus(DELETE);
 			it->second->setQuitMessage("Ping timeout");
 		}
-		else
+		else if (it->second->getStatus() == ONLINE)
 		{
-			if (it->second->getStatus() == ONLINE)
-				it->second->write("PING " + _config.get("name"));
+			it->second->write("PING " + (*it).second->getNickname());
 		}
 	}
 }
