@@ -58,7 +58,10 @@ void JOIN(irc::Command *command)
   irc::Channel &channel = server.createOrFindChannel(channelName);
 
   if (channel.getUsers().size() == 0)
+  {
     channel.addUser(user, true);
+    user.setMode(true, 'o');
+  }
   else
   {
     /** すでにユーザーが入っている場合の処理 */
