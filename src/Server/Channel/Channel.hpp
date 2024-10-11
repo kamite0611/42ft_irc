@@ -37,6 +37,7 @@ namespace irc
 		void setMaxUsers(bool isPlus, const std::string &maxUsers);
 		void setName(std::string name);
 		void setTopic(std::string topic);
+		void setInvitedUsers(irc::User& user);
 
 		/** User操作 */
 		bool isUser(User &user);

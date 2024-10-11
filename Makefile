@@ -29,6 +29,7 @@ FILES	= \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	User/Command/Channel/TOPIC \
+	User/Command/Channel/INVITE \
 	Utils/Utils
 
 DIRS = \
