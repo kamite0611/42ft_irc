@@ -50,6 +50,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
 	else if (code == 324)
 		return (arg1 + " " + arg2);
+	else if (code == 341)
+		return (arg1 + " " + arg2);
 	else if (code == 353)
 		return (arg1 + " " + arg2 + " :" + arg3);
 	else if (code == 366)
@@ -61,7 +63,7 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 	else if (code == 376)
 		return (":End of MOTD command");
 	else if (code == 401)
-		return (":No such nick/channel");
+		return (":No such " + arg1);
 	else if (code == 402)
 		return (arg1 + " :No such server");
 	else if (code == 403)
@@ -78,6 +80,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " :Nickname is already in use");
 	else if (code == 441)
 		return (arg1 + " " + arg2 + " :They aren't on that channel");
+	else if (code == 442)
+		return (arg1 + " :You're not on that channel");
 	else if (code == 461)
 		return (arg1 + " :Not enough parameters");
 	else if (code == 462)

@@ -28,6 +28,7 @@ FILES	= \
 	User/Command/Server/LUSERS \
 	User/Command/Server/MOTD \
 	User/Command/Channel/TOPIC \
+	User/Command/Channel/INVITE \
 	User/Command/Channel/JOIN \
 	User/Command/Channel/KICK \
 	User/Command/Channel/PRIVMSG \

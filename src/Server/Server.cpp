@@ -225,6 +225,15 @@ void irc::Server::delChannel(irc::Channel &channel)
 }
 
 /** Getters */
+irc::User& irc::Server::getUser(const std::string& name)
+{
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getNickname() == name)
+			return (*it->second);
+	}
+	return (*_users.begin()->second);
+}
 irc::Config &irc::Server::getConfig() { return (this->_config); }
 irc::Display &irc::Server::getDisplay() { return (this->_display); }
 std::vector<irc::User *> irc::Server::getUsers()

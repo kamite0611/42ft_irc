@@ -53,13 +53,14 @@ namespace irc
 		size_t getUnknownCount();
 		size_t getClientCount();
 		std::time_t getLastPingTime();
+		irc::User& getUser(const std::string& name);
 
 		/** サーバー実行 */
 		void init();
 		void execute();
 
 		/*User操作*/
-		void delUser(irc::User &user);
+		void delUser(irc::User &user)
 		irc::User *findUserByNickname(std::string name);
 
 		/*Channel操作*/

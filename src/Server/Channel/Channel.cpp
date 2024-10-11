@@ -59,6 +59,8 @@ void irc::Channel::setTopic(std::string topic) { _topic = topic; }
 
 /* setters */
 void irc::Channel::setName(std::string name) { _name = name; }
+void irc::Channel::setInvitedUsers(irc::User& user) { _invitedUsers.push_back(&user); }
+
 
 /**
  * ------------ User Functions ------------
