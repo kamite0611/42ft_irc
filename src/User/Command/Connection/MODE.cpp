@@ -87,6 +87,8 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 			command->reply(command->getUser(), 472);
 		}
 	}
+	if (CMD_DEBUG)
+		std::cout << channel.getName() << "'s mode=" << channel.getMode() << std::endl;
 }
 
 void MODE(irc::Command *command)
