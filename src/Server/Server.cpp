@@ -158,6 +158,9 @@ void irc::Server::execute()
 	}
 }
 
+/**
+ * -------- Users func ---------
+ */
 void irc::Server::delUser(irc::User &user)
 {
 	std::vector<irc::User *> receipients;
@@ -204,14 +207,16 @@ void irc::Server::delUser(irc::User &user)
 	delete &user;
 }
 
-bool irc::Server::isUser(const std::string& name)
+/** ユーザーを名前で検索 */
+irc::User *irc::Server::findUserByNickname(std::string name)
 {
-	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	std::vector<irc::User *> users = getUsers();
+	for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
 	{
-		if (it->second->getNickname() == name)
-			return (true);
+		if ((*it)->getNickname() == name)
+			return *it;
 	}
-	return (false);
+	return NULL;
 }
 
 void irc::Server::delChannel(irc::Channel &channel)
@@ -320,8 +325,6 @@ irc::Channel *irc::Server::findChannel(std::string channelName)
 irc::Channel &irc::Server::createOrFindChannel(std::string channelName)
 {
 	bool exist = !!findChannel(channelName);
-
-	std::cout << "exist: " << exist << std::endl;
 	Channel &channel = _channels[channelName];
 	if (!exist)
 	{

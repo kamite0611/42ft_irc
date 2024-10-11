@@ -68,6 +68,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " :No such server");
 	else if (code == 403)
 		return (arg1 + " :No such channel");
+	else if (code == 404)
+		return (arg1 + " :Cannot send to channel");
 	else if (code == 409)
 		return (":No origin specified");
 	else if (code == 431)

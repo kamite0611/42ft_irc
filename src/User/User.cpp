@@ -16,6 +16,8 @@ void LUSERS(irc::Command *command);
 void MOTD(irc::Command *command);
 void QUIT(irc::Command *command);
 void JOIN(irc::Command *command);
+void KICK(irc::Command *command);
+void PRIVMSG(irc::Command *command);
 void MODE(irc::Command *command);
 void PING(irc::Command *command);
 void PONG(irc::Command *command);
@@ -41,6 +43,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 	_commandFunctions["USER"] = USER;
 	_commandFunctions["QUIT"] = QUIT;
 	_commandFunctions["JOIN"] = JOIN;
+	_commandFunctions["KICK"] = KICK;
+	_commandFunctions["PRIVMSG"] = PRIVMSG;
 	_commandFunctions["MODE"] = MODE;
 	_commandFunctions["PING"] = PING;
 	_commandFunctions["PONG"] = PONG;
@@ -126,12 +130,13 @@ void irc::User::dispatch()
 	if (lastStatus == DELETE)
 		return;
 
-	// if (DEBUG)
-	// {
-	//     std::cout << "now commands\n";
-	//     for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
-	//         std::cout << (*it)->getPrefix() << std::endl;
-	// }
+	if (DEBUG)
+	{
+		std::cout << "commands: ";
+		for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+			std::cout << (*it)->getPrefix() << " ";
+		std::cout << std::endl;
+	}
 	std::vector<Command *> used;
 	for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
 	{
@@ -186,35 +191,35 @@ void irc::User::dispatch()
 
 void irc::User::receive()
 {
-    {
-        char buffer[BUFFER_SIZE + 1];
-        ssize_t recv_bytes;
+	{
+		char buffer[BUFFER_SIZE + 1];
+		ssize_t recv_bytes;
 
-        if ((recv_bytes = recv(_fd, &buffer, BUFFER_SIZE, 0)) == -1) /*readでもいいかも*/
-            irc::printError("recv", true);
-        if (recv_bytes == 0)
-        {
-            _status = DELETE; /*POLLINが起きているのに読み取りがないので、相手が接続を正常終了した*/
-            return;
-        }
-        buffer[recv_bytes] = 0;
-        if (CMD_DEBUG)
-            std::cout << "receive buffer=" << buffer << std::endl;
-        _buffer += buffer;
-    }
+		if ((recv_bytes = recv(_fd, &buffer, BUFFER_SIZE, 0)) == -1) /*readでもいいかも*/
+			irc::printError("recv", true);
+		if (recv_bytes == 0)
+		{
+			_status = DELETE; /*POLLINが起きているのに読み取りがないので、相手が接続を正常終了した*/
+			return;
+		}
+		buffer[recv_bytes] = 0;
+		if (CMD_DEBUG)
+			std::cout << "receive buffer=" << buffer << std::endl;
+		_buffer += buffer;
+	}
 
-    std::string delimiter(MESSAGE_END);
-    size_t pos;
-    while ((pos = _buffer.find(delimiter)) != std::string::npos)
-    {
-        std::string message =
-            _buffer.substr(0, pos); /*messageには終端文字\r\nは含まない*/
-        _buffer.erase(0, pos + delimiter.length());
-        if (!message.length())
-            continue;
-        _command.push_back(new Command(this, _server, message));
-    }
-    dispatch();
+	std::string delimiter(MESSAGE_END);
+	size_t pos;
+	while ((pos = _buffer.find(delimiter)) != std::string::npos)
+	{
+		std::string message =
+				_buffer.substr(0, pos); /*messageには終端文字\r\nは含まない*/
+		_buffer.erase(0, pos + delimiter.length());
+		if (!message.length())
+			continue;
+		_command.push_back(new Command(this, _server, message));
+	}
+	dispatch();
 }
 
 void irc::User::write(const std::string &message)

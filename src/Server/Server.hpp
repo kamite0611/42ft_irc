@@ -60,8 +60,8 @@ namespace irc
 		void execute();
 
 		/*User操作*/
-		void delUser(irc::User &user);
-		bool isUser(const std::string& name);
+		void delUser(irc::User &user)
+		irc::User *findUserByNickname(std::string name);
 
 		/*Channel操作*/
 		irc::Channel *findChannel(std::string channelName);

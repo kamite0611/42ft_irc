@@ -22,7 +22,6 @@ FILES	= \
 	User/Command/Connection/NICK \
 	User/Command/Connection/USER \
 	User/Command/Connection/QUIT \
-	User/Command/Connection/JOIN \
 	User/Command/Connection/MODE \
 	User/Command/Connection/PING \
 	User/Command/Connection/PONG \
@@ -30,6 +29,9 @@ FILES	= \
 	User/Command/Server/MOTD \
 	User/Command/Channel/TOPIC \
 	User/Command/Channel/INVITE \
+	User/Command/Channel/JOIN \
+	User/Command/Channel/KICK \
+	User/Command/Channel/PRIVMSG \
 	Utils/Utils
 
 DIRS = \

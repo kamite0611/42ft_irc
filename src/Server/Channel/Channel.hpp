@@ -41,7 +41,8 @@ namespace irc
 
 		/** User操作 */
 		bool isUser(User &user);
-		bool isUserNyName(const std::string &userNickname);
+		bool isUserByName(const std::string &userNickname);
+		irc::User *findUserByNickname(std::string name);
 		void addUser(User &user, bool isAdmin);
 		void delUser(User &user);
 
