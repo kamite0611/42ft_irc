@@ -8,7 +8,7 @@ void INVITE(irc::Command* command)
 	if (command->getParameter().size() <= 1)
 		return (command->reply(command->getUser(), 461, "INVITE"));
 
-	if (!command->getServer().isUser(command->getParameter()[0]))
+	if (command->getServer().findUserByNickname(command->getParameter()[0]) == NULL)
 		return (command->reply(command->getUser(), 401, command->getParameter()[0]));
 	else
 		invitedUserNickname = command->getParameter()[0];
