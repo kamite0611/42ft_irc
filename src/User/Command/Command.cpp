@@ -19,6 +19,9 @@ _user(user), _server(server)
 
 	for (size_t i = 0; i < _prefix.length(); i++)
 		_prefix[i] = std::toupper(_prefix[i]);
+
+	if (CMD_DEBUG)
+		std::cout << "Now making command=" << _prefix << std::endl;
 }
 
 irc::Command::~Command() {}
