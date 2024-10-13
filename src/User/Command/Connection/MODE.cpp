@@ -43,8 +43,8 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 					command->reply(command->getUser(), 441, userNickname, channel.getName());
 					continue;
 				}
-				irc::User settingUser = channel.getUser(userNickname);
-				settingUser.setMode(isPlus, settingMode[i]);
+				channel.getUser(userNickname).setMode(isPlus, settingMode[i]);
+				// std::cout << "settingUserMode=" << setting
 			}
 		}
 		else if (command->getServer().getConfig().get("channel_togglemode").find(settingMode[i]) != std::string::npos)
