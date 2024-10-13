@@ -94,8 +94,11 @@ void irc::Server::init()
 	int en = 1;
 	if (setsockopt(_fd, SOL_SOCKET, IS_MAC ? SO_REUSEPORT : SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
 		irc::printError("setsockopt failure", true);
-	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
-		irc::printError("fcntl failure", true);
+	if (IS_MAC)
+	{
+		if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
+			irc::printError("fcntl failure", true);
+	}
 	if (bind(_fd, (struct sockaddr *)&add, sizeof(add)) < 0) // ソケットとサーバーアドレスを関連付ける
 		irc::printError("bind failure", true);
 	if (listen(_fd, SOMAXCONN) < 0)

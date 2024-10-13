@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include "irc.hpp"
 
 /*
 Command Functions
@@ -28,7 +29,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 																																			_server(server),
 																																			_status(irc::CAPLS)
 {
-	fcntl(fd, F_SETFL, O_NONBLOCK);
+	if (IS_MAC)
+		fcntl(fd, F_SETFL, O_NONBLOCK);
 	_hostaddr = inet_ntoa(address.sin_addr);
 	char hostname[NI_MAXHOST];
 	if (getnameinfo((struct sockaddr *)&address, sizeof(address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0)
