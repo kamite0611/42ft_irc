@@ -28,7 +28,10 @@ void KICK(irc::Command *command)
   if (!targetUser)
     return command->reply(user, 441, userName, channelName);
 
-  channel->broadcast(user, "KICK " + channelName + " " + userName + ": " + params[2]);
+  if (!channel->isAdminUser(command->getUser()))
+    return command->reply(user, 482, user.getNickname());
+
+  channel->broadcast(user, "KICK " + channelName + " " + targetUser->getNickname() + " :" + params[2]);
   targetUser->write("Quit: " + targetUser->getQuitMessage());
   channel->delUser(*targetUser);
 }

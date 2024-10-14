@@ -1,5 +1,10 @@
 nc localhost 6667
+
+接続パート
 CAP LS
 PASS pass
 NICK kkodaira
 USER kkodaira * 0 :Kai Kodaira
+
+チャンネル操作パート
+INVITE #test kai
