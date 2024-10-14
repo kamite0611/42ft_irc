@@ -12,6 +12,8 @@ _user(user), _server(server)
 		_trailer = message; /*trailerは:を含まない*/
 		message = tmp; /*messageも:を含まない*/
 	}
+	else
+		_trailer = "";
 
 	_parameters = irc::split(message, " ");
 	_prefix = _parameters[0];

@@ -2,18 +2,18 @@
 
 void TOPIC(irc::Command *command)
 {
-	if (command->getParameter().size() <= 1)
+	if (command->getParameter().size() < 1)
 		return (command->reply(command->getUser(), 461, "TOPIC"));
 	std::string channelName = command->getParameter()[0];
 	if (!command->getServer().findChannel(channelName))
 		return (command->reply(command->getUser(), 403, channelName));
 
-	if (!command->getTrailer().length())
+	if (command->getTrailer() == "")
 	{
-		if (!command->getServer().getChannel(channelName).getTopic().length())
+		if (command->getServer().getChannel(channelName).getTopic() == "")
 			return (command->reply(command->getUser(), 331, channelName));
 		else
-			return (command->reply(command->getUser(), 332, command->getServer().getChannel(channelName).getTopic()));
+			return (command->reply(command->getUser(), 332, channelName, command->getServer().getChannel(channelName).getTopic()));
 	}
 	else
 	{

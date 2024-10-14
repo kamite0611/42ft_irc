@@ -50,6 +50,10 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
 	else if (code == 324)
 		return (arg1 + " " + arg2);
+	else if (code == 331)
+		return (arg1 + " :No topic is set");
+	else if (code == 332)
+		return (arg1 + " :" + arg2);
 	else if (code == 341)
 		return (arg1 + " " + arg2);
 	else if (code == 353)
@@ -104,6 +108,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " :You're not channel operator");
 	else if (code == 484)
 		return (":Your connection is restricted!");
+	else if (code == 501)
+		return (":Unknown MODE flag");
 	else if (code == 503)
 		return (":" + arg1);
 	else
