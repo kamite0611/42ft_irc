@@ -16,4 +16,3 @@ MODE #test [{[+|-]|o|i|t|k|l|}] [user|value]
 
 ユーザー操作パート
 NICK nickname
-
