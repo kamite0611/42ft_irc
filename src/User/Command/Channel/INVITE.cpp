@@ -21,7 +21,7 @@ void INVITE(irc::Command* command)
 	if (!command->getServer().findChannel(channelName)->isUser(command->getUser()))
 		return (command->reply(command->getUser(), 442, channelName));
 
-	if (command->getServer().findChannel(channelName)->getMode().find('i') != std::string::npos && command->getUser().getMode().find('o') == std::string::npos)
+	if (command->getServer().findChannel(channelName)->getMode().find('i') != std::string::npos && !command->getServer().findChannel(channelName)->isAdminUser(command->getUser()))
 		return (command->reply(command->getUser(), 482, channelName));
 
 	command->getServer().findChannel(channelName)->setInvitedUsers(command->getServer().getUser(invitedUserNickname));
