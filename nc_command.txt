@@ -7,4 +7,13 @@ NICK kkodaira
 USER kkodaira * 0 :Kai Kodaira
 
 チャンネル操作パート
-INVITE #test kai
+JOIN #test
+INVITE kai #test
+KICK #test kai [:reason]
+PRIVMSG #test :hello
+TOPIC #test [:topic]
+MODE #test [{[+|-]|o|i|t|k|l|}] [user|value]
+
+ユーザー操作パート
+NICK nickname
+
