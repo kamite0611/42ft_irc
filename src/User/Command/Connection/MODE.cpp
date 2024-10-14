@@ -24,7 +24,7 @@ bool inLimit(std::string num)
 
 void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::Channel &channel)
 {
-	if (command->getUser().getMode().find('o') == std::string::npos)
+	if (!channel.isAdminUser(command->getUser()))
 		return (command->reply(command->getUser(), 482, channel.getName()));
 	for (size_t i = 0; i < settingMode.size(); i++)
 	{
@@ -43,8 +43,8 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 					command->reply(command->getUser(), 441, userNickname, channel.getName());
 					continue;
 				}
-				irc::User settingUser = channel.getUser(userNickname);
-				settingUser.setMode(isPlus, settingMode[i]);
+				channel.addUser(channel.getUser(userNickname), true);
+				channel.getUser(userNickname).setMode(true, settingMode[i]);
 			}
 		}
 		else if (command->getServer().getConfig().get("channel_togglemode").find(settingMode[i]) != std::string::npos)
