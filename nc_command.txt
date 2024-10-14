@@ -1,0 +1,5 @@
+nc localhost 6667
+CAP LS
+PASS pass
+NICK kkodaira
+USER kkodaira * 0 :Kai Kodaira
