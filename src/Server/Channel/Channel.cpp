@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-irc::Channel::Channel() : _mode("n") {}
+irc::Channel::Channel() : _mode("nt") {}
 
 /**
  * ------------ getters ------------
