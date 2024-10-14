@@ -17,13 +17,13 @@ void irc::Command::reply(User &user, unsigned short code, const std::string &arg
 		scode = "0" + scode;
 
 	std::string target;
-	if (user.getStatus() == PASSWORD || user.getStatus() == REGISTER)
+	if (_user->getStatus() == PASSWORD || _user->getStatus() == REGISTER)
 		target = "*";
 	else
-		target = user.getNickname();
+		target = _user->getNickname();
 	target += " ";
 
-	user.sendTo(user, scode + " " + target + " " + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
+	user.sendTo(user, scode + " " + target + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
 }
 std::string irc::Command::getReplyMessage(unsigned short code, const std::string &arg1,
 																					const std::string &arg2,
@@ -88,8 +88,14 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (":You may not reregister");
 	else if (code == 464)
 		return (":Password incorrect");
+	else if (code == 471)
+		return (arg1 + " :Cannot join channel (+l)");
 	else if (code == 472)
 		return (arg1 + " :is unknown mode char to me for " + arg2);
+	else if (code == 473)
+		return (arg1 + " :Cannot join channel (+i)");
+	else if (code == 475)
+		return (arg1 + " :Cannot join channel (+k)");
 	else if (code == 476)
 		return (arg1 + " :Bad Channel Mask");
 	else if (code == 481)

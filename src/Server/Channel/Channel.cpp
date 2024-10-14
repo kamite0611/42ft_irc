@@ -28,6 +28,21 @@ std::string irc::Channel::getMode() { return (_mode); }
 std::string irc::Channel::getTopic() { return (_topic); }
 std::string irc::Channel::getMaxUsers() { return (_maxUsers); }
 std::string irc::Channel::getPassword() { return (_password); }
+std::string irc::Channel::getUserNameString()
+{
+	std::string voice = "+";
+	std::string normal = " ";
+	for (std::map<int, irc::User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (isAdminUser(*it->second))
+			voice += it->second->getNickname();
+		else
+			normal += it->second->getNickname();
+	}
+
+	return (voice + normal);
+}
+
 
 /**
  * ------------ setters ------------

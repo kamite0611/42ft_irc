@@ -77,6 +77,6 @@ void JOIN(irc::Command *command)
   channel.broadcast(user, "JOIN :" + channel.getName());
 
   /** TODO [kamite] レスポンスメッセージ調整 */
-  command->reply(user, 353, "*", channelName, "@DebugUser");
+  command->reply(user, 353, "*", channelName, channel.getUserNameString());
   command->reply(user, 366, channelName);
 }
