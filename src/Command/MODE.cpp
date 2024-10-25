@@ -63,6 +63,7 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 				else if (isPlus && command->getParameter()[2].size() > 32)
 				{
 					command->reply(command->getUser(), 503, "Password is too long");
+					continue ;
 				}
 				channel.setMode(isPlus, settingMode[i]);
 				channel.setPassword(isPlus, command->getParameter()[2]);
@@ -77,6 +78,7 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 				else if (isPlus && !inLimit(command->getParameter()[2]))
 				{
 					command->reply(command->getUser(), 503, "invalid parameter");
+					continue ;
 				}
 				channel.setMode(isPlus, settingMode[i]);
 				channel.setMaxUsers(isPlus, command->getParameter()[2]);
