@@ -32,7 +32,7 @@ std::string irc::currentTime()
  */
 void irc::put_pfds(std::vector<pollfd> pfds)
 {
-	std::cout << "\n----- Now pfds -----" << std::endl; 
+	std::cout << "\n----- Now pfds -----" << std::endl;
 	for (std::size_t i = 0; i < pfds.size(); i++)
 	{
 		std::cout << "pfds[" << i << "]: " << &pfds[i] << " { fd: " << pfds[i].fd << " events: " << pfds[i].events << " }" << std::endl;
@@ -46,7 +46,7 @@ void irc::put_channels(std::vector<irc::Channel *> channels)
 {
 	int i = 0;
 	std::cout << "---------- channels ----------" << std::endl;
-	for (std::vector<irc::Channel*>::iterator it = channels.begin(); it != channels.end(); ++it)
+	for (std::vector<irc::Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
 	{
 		std::cout << "channels[" << i << "]: { name: " << (*it)->getName() << " }" << std::endl;
 		i++;
@@ -57,7 +57,6 @@ std::vector<std::string> irc::split(std::string &str, const std::string &deli)
 {
 	std::vector<std::string> parameters;
 	size_t pos = 0;
-	size_t nextPos = 0;
 
 	while ((pos = str.find(deli, pos + 1)) != std::string::npos)
 	{
