@@ -12,6 +12,8 @@ _user(user), _server(server)
 		_trailer = message; /*trailerは:を含まない*/
 		message = tmp; /*messageも:を含まない*/
 	}
+	else
+		_trailer = "";
 
 	_parameters = irc::split(message, " ");
 	_prefix = _parameters[0];
@@ -19,6 +21,9 @@ _user(user), _server(server)
 
 	for (size_t i = 0; i < _prefix.length(); i++)
 		_prefix[i] = std::toupper(_prefix[i]);
+
+	if (CMD_DEBUG)
+		std::cout << "Now making command=" << _prefix << std::endl;
 }
 
 irc::Command::~Command() {}

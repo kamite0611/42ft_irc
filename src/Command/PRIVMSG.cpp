@@ -19,9 +19,13 @@ void PRIVMSG(irc::Command *command)
   if (!channel)
     return command->reply(user, 404, targetName);
 
+  if (channel->getMode().find('n') != std::string::npos && !channel->isUser(user))
+    return command->reply(user, 404, channel->getName());
+
   std::vector<irc::User *> users = channel->getUsers();
   for (std::vector<irc::User *>::iterator it = users.begin(); it != users.end(); it++)
   {
+    std::cout << "User->" << (*it)->getNickname() << std::endl;
     if ((*it)->getFd() != user.getFd())
       user.sendTo(*(*it), "PRIVMSG " + channel->getName() + " :" + message);
   }

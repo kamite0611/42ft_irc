@@ -5,7 +5,6 @@
 #include "Config.hpp"
 #include "Utils.hpp"
 #include "User.hpp"
-#include "Display.hpp"
 #include "Command.hpp"
 #include "Channel.hpp"
 

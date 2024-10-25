@@ -17,13 +17,13 @@ void irc::Command::reply(User &user, unsigned short code, const std::string &arg
 		scode = "0" + scode;
 
 	std::string target;
-	if (user.getStatus() == PASSWORD || user.getStatus() == REGISTER)
+	if (_user->getStatus() == PASSWORD || _user->getStatus() == REGISTER)
 		target = "*";
 	else
-		target = user.getNickname();
+		target = _user->getNickname();
 	target += " ";
 
-	user.sendTo(user, scode + " " + target + " " + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
+	user.sendTo(user, scode + " " + target + getReplyMessage(code, arg1, arg2, arg3, arg4), "");
 }
 std::string irc::Command::getReplyMessage(unsigned short code, const std::string &arg1,
 																					const std::string &arg2,
@@ -50,6 +50,12 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (":I have " + arg1 + " clients and " + arg2 + " servers");
 	else if (code == 324)
 		return (arg1 + " " + arg2);
+	else if (code == 331)
+		return (arg1 + " :No topic is set");
+	else if (code == 332)
+		return (arg1 + " :" + arg2);
+	else if (code == 341)
+		return (arg1 + " " + arg2);
 	else if (code == 353)
 		return (arg1 + " " + arg2 + " :" + arg3);
 	else if (code == 366)
@@ -61,7 +67,7 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 	else if (code == 376)
 		return (":End of MOTD command");
 	else if (code == 401)
-		return (":No such nick/channel");
+		return (":No such " + arg1);
 	else if (code == 402)
 		return (arg1 + " :No such server");
 	else if (code == 403)
@@ -78,14 +84,22 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " :Nickname is already in use");
 	else if (code == 441)
 		return (arg1 + " " + arg2 + " :They aren't on that channel");
+	else if (code == 442)
+		return (arg1 + " :You're not on that channel");
 	else if (code == 461)
 		return (arg1 + " :Not enough parameters");
 	else if (code == 462)
 		return (":You may not reregister");
 	else if (code == 464)
 		return (":Password incorrect");
+	else if (code == 471)
+		return (arg1 + " :Cannot join channel (+l)");
 	else if (code == 472)
 		return (arg1 + " :is unknown mode char to me for " + arg2);
+	else if (code == 473)
+		return (arg1 + " :Cannot join channel (+i)");
+	else if (code == 475)
+		return (arg1 + " :Cannot join channel (+k)");
 	else if (code == 476)
 		return (arg1 + " :Bad Channel Mask");
 	else if (code == 481)
@@ -94,6 +108,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " :You're not channel operator");
 	else if (code == 484)
 		return (":Your connection is restricted!");
+	else if (code == 501)
+		return (":Unknown MODE flag");
 	else if (code == 503)
 		return (":" + arg1);
 	else

@@ -32,6 +32,7 @@ std::string irc::currentTime()
  */
 void irc::put_pfds(std::vector<pollfd> pfds)
 {
+	std::cout << "\n----- Now pfds -----" << std::endl; 
 	for (std::size_t i = 0; i < pfds.size(); i++)
 	{
 		std::cout << "pfds[" << i << "]: " << &pfds[i] << " { fd: " << pfds[i].fd << " events: " << pfds[i].events << " }" << std::endl;

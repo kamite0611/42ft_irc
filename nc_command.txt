@@ -1,0 +1,21 @@
+nc localhost 6667
+
+接続パート
+CAP LS
+PASS pass
+NICK kkodaira
+USER kkodaira * 0 :Kai Kodaira
+
+チャンネル操作パート
+JOIN #test
+INVITE kai #test
+KICK #test kai [:reason]
+PRIVMSG #test :hello
+TOPIC #test [:topic]
+MODE #test [{[+|-]|o|i|t|k|l|}] [user|value]
+
+ユーザー操作パート
+NICK nickname
+
+inviteユーザーが入ったあとのリストからの削除
+password

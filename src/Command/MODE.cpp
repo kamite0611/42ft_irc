@@ -24,13 +24,13 @@ bool inLimit(std::string num)
 
 void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::Channel &channel)
 {
-	if (command->getUser().getMode().find('o') == std::string::npos)
+	if (!channel.isAdminUser(command->getUser()))
 		return (command->reply(command->getUser(), 482, channel.getName()));
 	for (size_t i = 0; i < settingMode.size(); i++)
 	{
 		if (command->getServer().getConfig().get("channel_givemode").find(settingMode[i]) != std::string::npos)
 		{
-			if (!command->getParameter()[2].size())
+			if (command->getParameter().size() <= 2)
 			{
 				command->reply(command->getUser(), 461, command->getPrefix());
 				continue;
@@ -43,8 +43,8 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 					command->reply(command->getUser(), 441, userNickname, channel.getName());
 					continue;
 				}
-				irc::User settingUser = channel.getUser(userNickname);
-				settingUser.setMode(isPlus, settingMode[i]);
+				channel.addUser(channel.getUser(userNickname), true);
+				channel.getUser(userNickname).setMode(true, settingMode[i]);
 			}
 		}
 		else if (command->getServer().getConfig().get("channel_togglemode").find(settingMode[i]) != std::string::npos)
@@ -55,7 +55,7 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 		{
 			if (settingMode[i] == 'k')
 			{
-				if (isPlus && !command->getParameter()[2].size())
+				if (isPlus && command->getParameter().size() <= 2)
 				{
 					command->reply(command->getUser(), 461, command->getPrefix());
 					continue;
@@ -63,13 +63,14 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 				else if (isPlus && command->getParameter()[2].size() > 32)
 				{
 					command->reply(command->getUser(), 503, "Password is too long");
+					continue ;
 				}
 				channel.setMode(isPlus, settingMode[i]);
 				channel.setPassword(isPlus, command->getParameter()[2]);
 			}
 			else if (settingMode[i] == 'l')
 			{
-				if (isPlus && !command->getParameter()[2].size())
+				if (isPlus && command->getParameter().size() <= 2)
 				{
 					command->reply(command->getUser(), 461, command->getPrefix());
 					continue;
@@ -77,6 +78,7 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 				else if (isPlus && !inLimit(command->getParameter()[2]))
 				{
 					command->reply(command->getUser(), 503, "invalid parameter");
+					continue ;
 				}
 				channel.setMode(isPlus, settingMode[i]);
 				channel.setMaxUsers(isPlus, command->getParameter()[2]);
@@ -87,6 +89,8 @@ void setting(irc::Command *command, bool isPlus, std::string &settingMode, irc::
 			command->reply(command->getUser(), 472);
 		}
 	}
+	if (CMD_DEBUG)
+		std::cout << channel.getName() << "'s mode=" << channel.getMode() << std::endl;
 }
 
 void MODE(irc::Command *command)
@@ -96,7 +100,7 @@ void MODE(irc::Command *command)
 	if (command->getParameter()[0][0] != '#')
 		return;
 
-	if (command->getParameter()[1].size())
+	if (command->getParameter().size() > 1)
 	{
 		std::string channelName = command->getParameter()[0];
 		std::string settingMode = command->getParameter()[1];
@@ -104,19 +108,19 @@ void MODE(irc::Command *command)
 		{
 			if (DEBUG)
 				std::cout << "settingMode=" << settingMode << std::endl;
-			irc::Channel settingChannel = command->getServer().getChannel(channelName);
 			size_t i = 0;
 			while (settingMode[i])
 			{
 				std::string nowSettingMode = "";
-				if (settingMode[i] != '-')
+				if (settingMode[i] == '-')
 				{
+					i++;
 					while (settingMode[i] && settingMode[i] != '+' && settingMode[i] != '-')
 					{
 						nowSettingMode += settingMode[i];
 						i++;
 					}
-					setting(command, false, nowSettingMode, settingChannel);
+					setting(command, false, nowSettingMode, command->getServer().getChannel(channelName));
 				}
 				else
 				{
@@ -127,7 +131,7 @@ void MODE(irc::Command *command)
 						nowSettingMode += settingMode[i];
 						i++;
 					}
-					setting(command, true, nowSettingMode, settingChannel);
+					setting(command, true, nowSettingMode, command->getServer().getChannel(channelName));
 				}
 			}
 		}
@@ -144,8 +148,7 @@ void MODE(irc::Command *command)
 		std::string channelName = command->getParameter()[0];
 		if (command->getServer().findChannel(channelName))
 		{
-			irc::Channel displayChannel = command->getServer().getChannel(channelName);
-			command->reply(command->getUser(), 324, channelName, displayChannel.getMode());
+			command->reply(command->getUser(), 324, channelName, command->getServer().getChannel(channelName).getMode());
 		}
 		else
 		{

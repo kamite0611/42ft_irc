@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include "irc.hpp"
 
 /*
 Command Functions
@@ -22,12 +23,14 @@ void MODE(irc::Command *command);
 void PING(irc::Command *command);
 void PONG(irc::Command *command);
 void TOPIC(irc::Command *command);
+void INVITE(irc::Command* command);
 
 irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 																																			_server(server),
 																																			_status(irc::CAPLS)
 {
-	fcntl(fd, F_SETFL, O_NONBLOCK);
+	if (IS_MAC)
+		fcntl(fd, F_SETFL, O_NONBLOCK);
 	_hostaddr = inet_ntoa(address.sin_addr);
 	char hostname[NI_MAXHOST];
 	if (getnameinfo((struct sockaddr *)&address, sizeof(address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0)
@@ -48,10 +51,13 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 	_commandFunctions["PING"] = PING;
 	_commandFunctions["PONG"] = PONG;
 	_commandFunctions["TOPIC"] = TOPIC;
+	_commandFunctions["INVITE"] = INVITE;
 }
 
 irc::User::~User()
 {
+	for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+		delete *it;
 }
 
 /*Getter*/

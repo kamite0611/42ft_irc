@@ -4,8 +4,12 @@
 #include <netinet/in.h>
 
 irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0))
+{}
+
+irc::Server::~Server()
 {
-	_display.set(0, "Welcome To Our Irc Server!");
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+		delete it->second;
 }
 
 /*---------------- Private Functions  ----------------*/
@@ -55,10 +59,9 @@ void irc::Server::_sendPing()
 			it->second->setStatus(DELETE);
 			it->second->setQuitMessage("Ping timeout");
 		}
-		else
+		else if (it->second->getStatus() == ONLINE)
 		{
-			if (it->second->getStatus() == ONLINE)
-				it->second->write("PING " + _config.get("name"));
+			it->second->write("PING " + (*it).second->getNickname());
 		}
 	}
 }
@@ -95,8 +98,11 @@ void irc::Server::init()
 	int en = 1;
 	if (setsockopt(_fd, SOL_SOCKET, IS_MAC ? SO_REUSEPORT : SO_REUSEADDR | SO_REUSEPORT, &en, sizeof(en)) < 0)
 		irc::printError("setsockopt failure", true);
-	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
-		irc::printError("fcntl failure", true);
+	if (IS_MAC)
+	{
+		if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0) // MacOSでは必須
+			irc::printError("fcntl failure", true);
+	}
 	if (bind(_fd, (struct sockaddr *)&add, sizeof(add)) < 0) // ソケットとサーバーアドレスを関連付ける
 		irc::printError("bind failure", true);
 	if (listen(_fd, SOMAXCONN) < 0)
@@ -225,8 +231,16 @@ void irc::Server::delChannel(irc::Channel &channel)
 }
 
 /** Getters */
+irc::User& irc::Server::getUser(const std::string& name)
+{
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+	{
+		if (it->second->getNickname() == name)
+			return (*it->second);
+	}
+	return (*_users.begin()->second);
+}
 irc::Config &irc::Server::getConfig() { return (this->_config); }
-irc::Display &irc::Server::getDisplay() { return (this->_display); }
 std::vector<irc::User *> irc::Server::getUsers()
 {
 	std::vector<irc::User *> users;
@@ -250,7 +264,7 @@ std::vector<irc::Channel *> irc::Server::getChannels()
 		channels.push_back(&(*it).second);
 	return (channels);
 }
-irc::Channel &irc::Server::getChannel(const std::string &name) { return (_channels.at(name)); }
+irc::Channel &irc::Server::getChannel(const std::string &name) { return (_channels[name]); }
 
 std::string &irc::Server::_getBootTime() { return (_bootTime); }
 size_t irc::Server::getVisibleCount()
