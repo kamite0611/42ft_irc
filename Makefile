@@ -81,6 +81,9 @@ run: all
 run_client:
 	irssi -c localhost -w pass -p 6667 -n DebugUser
 
+leak_run: all
+	valgrind --leak-check=full ./$(NAME) 6667 pass
+
 debug: INCS += $(DEBUG_FLAG)
 debug: run
 
