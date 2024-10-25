@@ -38,6 +38,8 @@ bool isValidJoin(irc::Command *command)
   /** 招待制 */
   if (channel->getMode().find('i') != std::string::npos && !channel->isInvitedUser(user))
     return command->reply(user, 473, channelName), false;
+  else if (channel->getMode().find('i') != std::string::npos)
+    channel->removeUserInvite(user);
 
   return true;
 }
