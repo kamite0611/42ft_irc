@@ -56,6 +56,8 @@ irc::User::User(int fd, Server *server, struct sockaddr_in address) : _fd(fd),
 
 irc::User::~User()
 {
+	for (std::vector<Command *>::iterator it = _command.begin(); it != _command.end(); it++)
+		delete *it;
 }
 
 /*Getter*/

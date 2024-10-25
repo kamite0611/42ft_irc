@@ -37,6 +37,7 @@ namespace irc
 
 	public:
 		Server();
+		~Server();
 
 		/** Getters */
 		irc::Config &getConfig();

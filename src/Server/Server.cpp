@@ -6,6 +6,12 @@
 irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0))
 {}
 
+irc::Server::~Server()
+{
+	for (std::map<int, User *>::iterator it = _users.begin(); it != _users.end(); it++)
+		delete it->second;
+}
+
 /*---------------- Private Functions  ----------------*/
 
 /**
