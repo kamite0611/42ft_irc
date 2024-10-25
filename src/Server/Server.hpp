@@ -2,7 +2,6 @@
 
 #include "Config.hpp"
 #include "User.hpp"
-#include "Display.hpp"
 #include <ctime>
 #include <poll.h>
 #include <vector>
@@ -23,7 +22,6 @@ namespace irc
 	{
 	private:
 		Config _config;
-		Display _display;
 
 		std::map<int, User *> _users;
 		std::map<std::string, Channel> _channels;
@@ -42,7 +40,6 @@ namespace irc
 
 		/** Getters */
 		irc::Config &getConfig();
-		irc::Display &getDisplay();
 		std::vector<irc::User *> getUsers();
 		std::vector<irc::Channel *> getChannels();
 		irc::Channel &getChannel(const std::string &name);

@@ -11,39 +11,34 @@ SRC_DIR = src/
 FILES	= \
 	main \
 	Server/Server \
-	Server/Config/Config \
-	Server/Display/Display \
-	Server/Channel/Channel \
+	Config/Config \
+	Channel/Channel \
 	User/User \
-	User/Command/Command \
-	User/Command/reply \
-	User/Command/Connection/CAP \
-	User/Command/Connection/PASS \
-	User/Command/Connection/NICK \
-	User/Command/Connection/USER \
-	User/Command/Connection/QUIT \
-	User/Command/Connection/MODE \
-	User/Command/Connection/PING \
-	User/Command/Connection/PONG \
-	User/Command/Server/LUSERS \
-	User/Command/Server/MOTD \
-	User/Command/Channel/TOPIC \
-	User/Command/Channel/INVITE \
-	User/Command/Channel/JOIN \
-	User/Command/Channel/KICK \
-	User/Command/Channel/PRIVMSG \
+	Command/Command \
+	Command/reply \
+	Command/CAP \
+	Command/PASS \
+	Command/NICK \
+	Command/USER \
+	Command/QUIT \
+	Command/MODE \
+	Command/PING \
+	Command/PONG \
+	Command/LUSERS \
+	Command/MOTD \
+	Command/TOPIC \
+	Command/INVITE \
+	Command/JOIN \
+	Command/KICK \
+	Command/PRIVMSG \
 	Utils/Utils
 
 DIRS = \
 	Server/ \
-	Server/Channel/ \
-	Server/Config/ \
-	Server/Display/ \
+	Channel/ \
+	Config/ \
 	User/ \
-	User/Command/ \
-	User/Command/Connection \
-	User/Command/Server \
-	User/Command/Channel \
+	Command/ \
 	Utils/
 
 INC_DIRS = $(addprefix -I ./$(SRC_DIR), $(DIRS))

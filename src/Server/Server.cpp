@@ -4,9 +4,7 @@
 #include <netinet/in.h>
 
 irc::Server::Server() : _bootTime(irc::currentTime()), _lastPingTime(std::time(0))
-{
-	_display.set(0, "Welcome To Our Irc Server!");
-}
+{}
 
 /*---------------- Private Functions  ----------------*/
 
@@ -237,7 +235,6 @@ irc::User& irc::Server::getUser(const std::string& name)
 	return (*_users.begin()->second);
 }
 irc::Config &irc::Server::getConfig() { return (this->_config); }
-irc::Display &irc::Server::getDisplay() { return (this->_display); }
 std::vector<irc::User *> irc::Server::getUsers()
 {
 	std::vector<irc::User *> users;
