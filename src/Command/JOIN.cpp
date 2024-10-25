@@ -18,7 +18,7 @@ bool isValidJoin(irc::Command *command)
     return command->reply(user, 461, "JOIN"), false;
 
   std::string channelName = params[0];
-  std::string password = params.size() > 2 ? params[1] : std::string();
+  std::string password = params.size() > 1 ? params[1] : std::string();
 
   if (channelName[0] != '#')
     return false;
