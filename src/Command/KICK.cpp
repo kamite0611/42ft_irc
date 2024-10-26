@@ -32,6 +32,6 @@ void KICK(irc::Command *command)
     return command->reply(user, 482, user.getNickname());
 
   channel->broadcast(user, "KICK " + channelName + " " + targetUser->getNickname() + " :" + command->getTrailer());
-//   targetUser->write("Quit: " + targetUser->getQuitMessage());
-//   channel->delUser(*targetUser);
+  targetUser->write("Quit: " + targetUser->getQuitMessage());
+  channel->delUser(*targetUser);
 }
