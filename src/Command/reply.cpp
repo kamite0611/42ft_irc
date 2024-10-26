@@ -86,6 +86,8 @@ std::string irc::Command::getReplyMessage(unsigned short code, const std::string
 		return (arg1 + " " + arg2 + " :They aren't on that channel");
 	else if (code == 442)
 		return (arg1 + " :You're not on that channel");
+	else if (code == 443)
+		return (arg1 + " " + arg2 + " :is already on channel");
 	else if (code == 461)
 		return (arg1 + " :Not enough parameters");
 	else if (code == 462)
