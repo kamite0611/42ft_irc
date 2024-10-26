@@ -1,6 +1,6 @@
 NAME	= ircserv
 CC		= c++
-FLAGS	= -std=c++98 -Wall -Wextra -Werror
+FLAGS	= -std=c++98 #-Wall -Wextra -Werror
 
 DEBUG_FLAG = -DDEBUG=1
 CMD_DEBUG_FLAG = -DCMD_DEBUG=1
