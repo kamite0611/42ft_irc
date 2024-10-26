@@ -59,6 +59,8 @@ void JOIN(irc::Command *command)
   irc::User &user = command->getUser();
   irc::Channel &channel = server.createOrFindChannel(channelName);
 
+  if (channel.isUser(user))
+    return (command->reply(user, 443, user.getNickname(), channel.getName()));
   if (channel.getUsers().size() == 0)
   {
     channel.addUser(user, true);
